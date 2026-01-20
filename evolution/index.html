@@ -115,30 +115,39 @@
         }
 
         /* Modal Area */
-        .modal-content-area {
-            min-height: 580px;
-            overflow-y: auto;
+        #modal-container {
+            max-height: 90vh;
+            width: 95vw;
+            max-width: 1000px;
+            display: flex;
+            flex-direction: column;
         }
 
-        /* Tab Badges - Explizit rund gestaltet */
+        .modal-content-area {
+            flex: 1;
+            overflow-y: auto;
+            padding-bottom: 2rem;
+        }
+
+        /* Tab Badges - Formvollendet rund */
         .tab-badge {
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            padding: 0.5rem 1.5rem;
+            padding: 0.6rem 1.4rem;
             font-size: 11px;
             font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 0.05em;
             border-radius: 9999px !important;
-            /* Erzwingt Abrundung */
             border-width: 1px;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            background-color: rgba(255, 255, 255, 0.12);
+            transition: all 0.2s ease-in-out;
+            background-color: rgba(255, 255, 255, 0.1);
             border-color: rgba(255, 255, 255, 0.2);
             color: #cbd5e1;
             cursor: pointer;
             outline: none;
+            white-space: nowrap;
         }
 
         .tab-badge:hover {
@@ -150,14 +159,13 @@
             background-color: var(--at-orange);
             border-color: var(--at-orange-light);
             color: #fff;
-            box-shadow: 0 0 20px rgba(180, 83, 9, 0.6);
+            box-shadow: 0 0 15px rgba(180, 83, 9, 0.5);
         }
 
         body.modal-open {
             overflow: hidden;
         }
 
-        /* Header Button Glow */
         .cta-glow {
             animation: pulse-orange 3s infinite;
         }
@@ -176,12 +184,26 @@
             }
         }
 
-        /* Print Styles */
+        /* Print Styles - Optimized for Portrait */
+        #print-toc {
+            display: none;
+        }
+
+        .print-features {
+            display: none;
+        }
+
         @media print {
+            @page {
+                size: portrait;
+                margin: 1.5cm;
+            }
+
             body {
-                padding-top: 0;
+                padding-top: 0 !important;
                 background-color: white !important;
                 color: black !important;
+                height: auto !important;
             }
 
             header,
@@ -192,10 +214,58 @@
                 display: none !important;
             }
 
+            #print-toc {
+                display: block !important;
+                page-break-after: always;
+                color: black !important;
+                margin-bottom: 0 !important;
+            }
+
+            #print-toc h1 {
+                font-size: 26pt;
+                margin-bottom: 12pt;
+                font-weight: 800;
+                border-bottom: 3px solid #b45309;
+                padding-bottom: 8pt;
+            }
+
+            #print-toc .print-c2a-box {
+                margin-bottom: 25pt;
+                padding: 15pt;
+                border: 1px solid #eee;
+                border-radius: 10pt;
+                background: #fafafa;
+            }
+
+            #print-toc .print-c2a-box p {
+                margin-bottom: 4pt;
+            }
+
+            #print-toc ul {
+                list-style: none;
+                padding: 0;
+            }
+
+            #print-toc li {
+                margin-bottom: 8pt;
+                display: flex;
+                justify-content: space-between;
+                border-bottom: 1px dotted #ccc;
+            }
+
+            /* Vereinheitlichte Schriftgröße im Druck-ToC */
+            #print-toc li span {
+                font-size: 11pt !important;
+                line-height: 1.2;
+                font-weight: 500;
+                color: black !important;
+            }
+
             .timeline-wrapper {
                 display: block !important;
                 height: auto !important;
                 padding: 0 !important;
+                overflow: visible !important;
             }
 
             .version-node {
@@ -204,24 +274,29 @@
                 width: 100% !important;
                 left: 0 !important;
                 text-align: left !important;
-                page-break-inside: avoid;
-                margin-bottom: 3rem;
+                break-before: page !important;
+                margin-bottom: 0 !important;
                 display: block !important;
+                overflow: visible !important;
             }
 
             .card-inner {
                 background: white !important;
-                border: 1px solid #ddd !important;
+                border: none !important;
                 color: black !important;
                 box-shadow: none !important;
                 backdrop-filter: none !important;
-                padding: 1.5rem !important;
+                padding: 0 !important;
+                width: 100% !important;
             }
 
             .card-inner h4 {
-                color: black !important;
-                font-size: 24pt !important;
-                margin-top: 10pt !important;
+                color: #b45309 !important;
+                font-size: 22pt !important;
+                font-weight: 900;
+                margin: 20pt 0 15pt 0 !important;
+                border-bottom: 1px solid #ddd;
+                padding-bottom: 6pt;
             }
 
             .text-white,
@@ -234,57 +309,117 @@
                 color: #333 !important;
             }
 
-            .text-[#b45309] {
-                color: #b45309 !important;
-                font-weight: bold !important;
-            }
-
             .print-features {
                 display: block !important;
-                margin-top: 15pt;
+                margin-top: 10pt;
             }
 
             .print-feature-item {
                 margin-bottom: 20pt;
-                border-top: 1px solid #eee;
-                padding-top: 10pt;
+                page-break-inside: avoid;
+                width: 100% !important;
+            }
+
+            .print-feature-item h5 {
+                font-size: 13pt;
+                font-weight: 800;
+                color: black;
+                margin-bottom: 4pt;
+                text-transform: uppercase;
             }
 
             pre {
-                background: #f5f5f5 !important;
-                color: black !important;
-                border: 1px solid #ccc !important;
-                padding: 10pt !important;
+                background: white !important;
+                color: #111 !important;
+                border: none !important;
+                padding: 5pt 0 !important;
                 white-space: pre-wrap !important;
+                word-break: break-all !important;
+                overflow-wrap: break-word !important;
+                font-size: 8.5pt !important;
+                border-radius: 0 !important;
+                margin-top: 8pt !important;
+                width: 100% !important;
+                box-sizing: border-box !important;
+            }
+
+            p {
+                word-break: break-word;
+                line-height: 1.5;
+                margin-bottom: 8pt;
             }
         }
 
-        .print-features {
-            display: none;
-        }
-
+        /* Mobile Layout */
         @media (max-width: 768px) {
             .central-axis {
-                left: 30px;
+                left: 15px;
+                transform: none;
             }
 
             .year-marker {
-                left: 30px;
+                left: 15px;
+                transform: translate(-50%, -50%);
+                padding: 3px 8px;
+                font-size: 0.65rem;
             }
 
             .version-node {
-                width: calc(100% - 90px);
-                left: 90px !important;
+                width: calc(100% - 50px);
+                left: 40px !important;
                 text-align: left;
             }
 
-            .left .connector,
-            .right .connector {
-                left: -60px;
+            .connector {
+                left: -25px;
+                right: auto;
+                width: 25px;
+            }
+
+            .version-node.left .connector {
+                right: auto;
+                left: -25px;
+            }
+
+            header {
+                padding-left: 0.5rem;
+                padding-right: 0.5rem;
+                height: 64px;
+            }
+
+            body {
+                padding-top: 64px;
+            }
+
+            header span.sm\:block {
+                display: none;
+            }
+
+            #modal-container {
+                border-radius: 1rem;
+                width: 100vw;
+                height: 100vh;
+                max-height: 100vh;
             }
 
             .modal-content-area {
-                min-height: 450px;
+                min-height: 200px;
+                padding: 1.5rem;
+            }
+
+            .tab-badge {
+                padding: 0.4rem 0.8rem;
+                font-size: 9px;
+            }
+
+            .cta-glow {
+                padding-left: 0.75rem;
+                padding-right: 0.75rem;
+                font-size: 10px;
+            }
+
+            .timeline-wrapper {
+                padding-bottom: 100px;
             }
         }
     </style>
@@ -294,20 +429,19 @@
 
     <!-- Fixed Header -->
     <header
-        class="fixed top-0 left-0 right-0 h-20 bg-black/90 backdrop-blur-md border-b border-white/5 z-[100] flex items-center px-6 lg:px-12 justify-between">
+        class="fixed top-0 left-0 right-0 h-20 bg-black/90 backdrop-blur-md border-b border-white/5 z-[100] flex items-center px-4 lg:px-12 justify-between">
         <div class="flex items-center gap-3">
             <div
                 class="w-10 h-10 bg-[#b45309] rounded-lg flex items-center justify-center font-black text-white text-xl shadow-[0_0_15px_rgba(180,83,9,0.3)]">
                 A</div>
-            <span class="text-white font-bold text-lg tracking-tight hidden sm:block">Competence Center</span>
+            <span class="text-white font-bold text-lg tracking-tight hidden sm:block">Academy</span>
         </div>
 
-        <div class="flex items-center gap-4 lg:gap-8">
+        <div class="flex items-center gap-2 lg:gap-8">
             <span class="text-slate-400 text-sm font-medium hidden md:block">Fragen zu Java-Themen?</span>
-            <div class="flex items-center gap-4">
-                <!-- C2A Button -->
+            <div class="flex items-center gap-2 lg:gap-4">
                 <button onclick="handleCtaClick()"
-                    class="cta-glow bg-[#b45309] hover:bg-[#d97706] text-white px-6 py-2.5 rounded-full font-bold text-sm transition-all transform active:scale-95 flex items-center gap-2">
+                    class="cta-glow bg-[#b45309] hover:bg-[#d97706] text-white px-4 lg:px-6 py-2.5 rounded-full font-bold text-xs lg:text-sm transition-all transform active:scale-95 flex items-center gap-2">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z">
@@ -315,7 +449,6 @@
                     </svg>
                     Schulungs-Beratung
                 </button>
-                <!-- Print Button (jetzt rechts platziert) -->
                 <button onclick="window.print()"
                     class="p-2.5 rounded-full border border-white/10 text-white hover:bg-white/5 transition-all active:scale-90 flex items-center justify-center"
                     title="Dokument drucken">
@@ -329,11 +462,25 @@
         </div>
     </header>
 
-    <div class="max-w-6xl mx-auto px-4 mt-12">
-        <div class="text-center mb-40">
-            <h1 class="text-5xl lg:text-7xl font-black text-white mb-6">Java <span
+    <!-- Inhaltsverzeichnis nur für Druck -->
+    <section id="print-toc" class="px-8">
+        <h1>Java Evolution: LTS Roadmap</h1>
+        <div class="print-c2a-box">
+            <p style="font-weight: bold; color: #b45309;">Fragen zu Java-Themen?</p>
+            <p style="font-size: 10pt; color: #444;">Für Beratung rund um Java-Schulungen kontaktieren Sie uns unter:
+            </p>
+            <p style="font-family: monospace; font-weight: bold; font-size: 12pt;">competence-center@atvantage.com</p>
+        </div>
+        <ul id="toc-list">
+            <!-- Dynamisch gefüllt via JS -->
+        </ul>
+    </section>
+
+    <div class="max-w-6xl mx-auto px-4 mt-8 lg:mt-12">
+        <div class="text-center mb-24 lg:mb-40">
+            <h1 class="text-4xl lg:text-7xl font-black text-white mb-6">Java <span
                     class="text-[#b45309]">Evolution</span></h1>
-            <p class="text-slate-400 text-xl max-w-3xl mx-auto font-light leading-relaxed">
+            <p class="text-slate-400 text-base lg:text-xl max-w-3xl mx-auto font-light leading-relaxed">
                 Interaktive Roadmap der Java LTS Versionen (1.0 bis 1.25).
             </p>
         </div>
@@ -346,32 +493,38 @@
 
     <!-- Modal -->
     <div id="modal"
-        class="fixed inset-0 bg-black/95 backdrop-blur-2xl z-[150] flex items-center justify-center p-2 lg:p-6 opacity-0 pointer-events-none transition-all duration-300 cursor-pointer"
+        class="fixed inset-0 bg-black/95 backdrop-blur-2xl z-[150] flex items-center justify-center p-4 opacity-0 pointer-events-none transition-all duration-300 cursor-pointer"
         onclick="closeModalOnExternalClick(event)">
-        <div class="bg-[#111111] border border-white/10 w-full max-w-4xl rounded-[2.5rem] shadow-2xl overflow-hidden flex flex-col scale-95 transition-transform duration-300 cursor-default"
+        <div class="bg-[#111111] border border-white/10 flex flex-col rounded-[2rem] shadow-2xl overflow-hidden scale-95 transition-transform duration-300 cursor-default"
             id="modal-container" onclick="event.stopPropagation()">
             <!-- Modal Header -->
-            <div class="p-8 border-b border-white/5 flex justify-between items-center bg-white/5">
+            <div class="p-6 lg:p-8 border-b border-white/5 flex justify-between items-center bg-white/5 shrink-0">
                 <div id="modal-header">
-                    <h2 class="text-4xl font-black text-white">Java Version</h2>
+                    <h2 class="text-2xl lg:text-4xl font-black text-white leading-tight">Java Version</h2>
                     <div class="flex items-center gap-3 mt-2">
                         <span
-                            class="px-3 py-1 bg-[#b45309]/20 text-[#b45309] rounded-full text-[10px] font-black border border-[#b45309]/40 uppercase tracking-widest">LTS
+                            class="px-3 py-1 bg-[#b45309]/20 text-[#b45309] rounded-full text-[9px] font-black border border-[#b45309]/40 uppercase tracking-widest">LTS
                             Release</span>
-                        <p class="text-slate-500 font-medium text-sm" id="modal-release-date">Release Datum</p>
+                        <p class="text-slate-500 font-medium text-xs lg:text-sm" id="modal-release-date">Release Datum
+                        </p>
                     </div>
                 </div>
                 <button onclick="closeModal()"
-                    class="bg-white/5 hover:bg-red-500/20 hover:text-red-400 text-white/40 p-3 rounded-2xl transition-all">
+                    class="bg-white/5 hover:bg-red-500/20 hover:text-red-400 text-white/40 p-2 lg:p-3 rounded-2xl transition-all">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12">
                         </path>
                     </svg>
                 </button>
             </div>
-            <div id="modal-tabs" class="tab-nav flex flex-wrap bg-black/20 border-b border-white/5 px-8 py-6 gap-4">
+
+            <!-- Tab Navigation (Badges) -->
+            <div id="modal-tabs"
+                class="tab-nav flex flex-wrap bg-black/20 border-b border-white/5 px-4 lg:px-8 py-4 lg:py-6 gap-3 lg:gap-4 shrink-0">
             </div>
-            <div id="modal-body" class="p-8 lg:p-10 modal-content-area bg-transparent"></div>
+
+            <!-- Modal Body -->
+            <div id="modal-body" class="p-6 lg:p-10 modal-content-area bg-transparent"></div>
         </div>
     </div>
 
@@ -409,55 +562,54 @@
                 ]
             },
             {
-                ver: "1.5", date: "30. September 2004", year: 2004, features: [
+                ver: "1.5 (5)", date: "30. September 2004", year: 2004, features: [
                     { title: "Generics", desc: "Typsicherheit für Container-Klassen zur Vermeidung von Casts und Laufzeitfehlern.", code: "public void generics() {\n    List<Integer> zahlen = new ArrayList<>();\n    zahlen.add(42);\n    // Typsicheres Auslesen ohne Cast\n    int x = zahlen.get(0);\n    System.out.println(\"Ergebnis: \" + x);\n}" },
                     { title: "Varargs", desc: "Methoden-Definition mit variabler Anzahl an Argumenten desselben Typs.", code: "public void log(String level, String... msgs) {\n    System.out.print(level + \": \");\n    for (String s : msgs) {\n        System.out.print(s + \" \");\n    }\n    System.out.println();\n}" },
                     { title: "Enums", desc: "Typsichere Aufzählungsklassen statt statischer Konstanten.", code: "public enum Status { START, RUNNING, STOPPED }\n\nStatus s = Status.START;\nif(s == Status.START) { /* ... */ }" }
                 ]
             },
             {
-                ver: "1.6", date: "11. Dezember 2006", year: 2006, features: [
+                ver: "1.6 (6)", date: "11. Dezember 2006", year: 2006, features: [
                     { title: "Scripting API", desc: "Integration von Skriptsprachen wie JavaScript (Rhino) in Java-Anwendungen.", code: "import javax.script.*;\n\npublic void runJS() throws Exception {\n    ScriptEngineManager m = new ScriptEngineManager();\n    ScriptEngine e = m.getEngineByName(\"JavaScript\");\n    e.eval(\"print('Skripting in Java!')\");\n}" }
                 ]
             },
             {
-                ver: "1.7", date: "28. Juli 2011", year: 2011, features: [
+                ver: "1.7 (7)", date: "28. Juli 2011", year: 2011, features: [
                     { title: "try-with-resources", desc: "Sicheres Ressourcen-Management: Dateien werden am Ende des Blocks automatisch geschlossen.", code: "public void read(File f) throws IOException {\n    try (FileReader reader = new FileReader(f)) {\n        int data = reader.read();\n        System.out.println(\"Content: \" + data);\n    } // reader wird hier automatisch geschlossen\n}" },
                     { title: "Diamond Op.", desc: "Kürzere Schreibweise bei der Deklaration von Generics durch Typ-Inferenz.", code: "public void diamond() {\n    // Typ auf rechter Seite wird automatisch erkannt\n    Map<String, List<Integer>> map = new HashMap<>();\n    map.put(\"Key\", new ArrayList<>());\n    System.out.println(\"Map init\");\n}" }
                 ]
             },
             {
-                ver: "1.8", date: "18. März 2014", year: 2014, features: [
+                ver: "1.8 (8)", date: "18. März 2014", year: 2014, features: [
                     { title: "Lambdas", desc: "Funktionaler Programmierstil durch Code-Blöcke, die als Parameter übergeben werden.", code: "public void sort(List<String> l) {\n    // Kompakte Sortier-Logik\n    l.sort((a, b) -> a.length() - b.length());\n    l.forEach(s -> System.out.println(s));\n}" },
-                    { title: "Streams API", desc: "Deklarative Verarbeitung von Datenmengen in Pipelines (Filter, Map, Reduce).", code: "public void process(List<Integer> list) {\n    long result = list.stream()\n        .filter(x -> x > 10)\n        .map(x -> x * 2)\n        .count();\n    System.out.println(\"Gezählt: \" + result);\n}" },
+                    { title: "Streams API", desc: "Deklarative Verarbeitung von Datenmenge in Pipelines (Filter, Map, Reduce).", code: "public void process(List<Integer> list) {\n    long result = list.stream()\n        .filter(x -> x > 10)\n        .map(x -> x * 2)\n        .count();\n    System.out.println(\"Gezählt: \" + result);\n}" },
                     { title: "Optional", desc: "Container-Objekt zur Vermeidung von NullPointerExceptions und für saubere APIs.", code: "public void printUser(User u) {\n    String name = Optional.ofNullable(u)\n        .map(User::getName)\n        .orElse(\"Unbekannt\");\n    System.out.println(\"User: \" + name);\n}" }
                 ]
             },
             {
-                ver: "1.11", date: "25. September 2018", year: 2018, features: [
+                ver: "1.11 (11)", date: "25. September 2018", year: 2018, features: [
                     { title: "var", desc: "Lokale Typ-Inferenz für weniger Schreibarbeit bei eindeutigen Zuweisungen.", code: "public void varDemo() {\n    var message = \"Java 11\";\n    var liste = new ArrayList<String>();\n    liste.add(message);\n    System.out.println(liste.get(0));\n}" }
                 ]
             },
             {
-                ver: "1.17", date: "14. September 2021", year: 2021, features: [
+                ver: "1.17 (17)", date: "14. September 2021", year: 2021, features: [
                     { title: "Records", desc: "Unveränderliche Datenklassen, die automatisch Konstruktor, Getter und Co. generieren.", code: "public record User(int id, String name) {\n    // Einzeiler für Daten-Container\n}\n\nUser u = new User(1, \"Tom\");\nSystem.out.println(u.name());" },
                     { title: "Sealed Classes", desc: "Präzise Steuerung der Vererbungshierarchie durch explizite Freigabe von Unterklassen.", code: "public sealed class Form permits Kreis, Eck {\n    // Nur definierte Klassen dürfen erben\n}\n\nfinal class Kreis extends Form { }" }
                 ]
             },
             {
-                ver: "1.21", date: "19. September 2023", year: 2023, features: [
+                ver: "1.21 (21)", date: "19. September 2023", year: 2023, features: [
                     { title: "Virtual Threads", desc: "Leichtgewichtige Threads (Project Loom) für massive Skalierbarkeit bei minimalem Overhead.", code: "public void runAsync() {\n    try (var exec = Executors.newVirtualThreadPerTaskExecutor()) {\n        exec.submit(() -> {\n            System.out.println(\"Running in Virtual Thread\");\n        });\n    }\n}" },
                     { title: "Switch Patterns", desc: "Fallunterscheidung basierend auf dem Datentyp direkt im Switch.", code: "return switch (obj) {\n    case Integer i -> \"Zahl: \" + i;\n    case String s  -> \"Text: \" + s;\n    default        -> \"Andere\";\n};" }
                 ]
             },
             {
-                ver: "1.25", date: "16. September 2025", year: 2025, features: [
+                ver: "1.25 (25)", date: "16. September 2025", year: 2025, features: [
                     { title: "Stream Gather.", desc: "Benutzerdefinierte Zwischenoperationen für komplexe Transformationen in Streams.", code: "public void groups() {\n    var res = Stream.of(1,2,3,4,5)\n        .gather(Gatherers.windowFixed(3))\n        .toList();\n    // Result: [[1,2,3], [4,5]]\n}" }
                 ]
             }
         ];
 
-        // Anti-Crawler E-Mail verschleierung
         function handleCtaClick() {
             const p1 = "competence"; const p2 = "center"; const dom = "atvantage.com";
             const mail = `${p1}-${p2}@${dom}`;
@@ -470,23 +622,30 @@
         const modalContainer = document.getElementById('modal-container');
 
         function init() {
+            const tocList = document.getElementById('toc-list');
+
             for (let y = startYear; y <= endYear; y++) {
                 const m = document.createElement('div');
                 m.className = 'year-marker'; m.style.top = `${(y - startYear) * yearHeight}px`;
                 m.textContent = y; timeline.appendChild(m);
             }
             timeline.style.height = `${(endYear - startYear) * yearHeight}px`;
+
             javaVersions.forEach((v, i) => {
                 const n = document.createElement('div');
                 n.className = `version-node ${i % 2 === 0 ? 'left' : 'right'}`;
                 n.style.top = `${(v.year - startYear) * yearHeight}px`;
                 n.id = `node-java-${v.ver.replace(/\./g, '-')}`;
 
+                const li = document.createElement('li');
+                li.innerHTML = `<span>Java ${v.ver} (${v.date})</span> <span>${v.year}</span>`;
+                tocList.appendChild(li);
+
                 let featuresHtml = '';
                 v.features.forEach(f => {
                     featuresHtml += `
                         <div class="print-feature-item">
-                            <div class="text-[#b45309] font-bold uppercase text-xs mb-1">${f.title}</div>
+                            <h5>${f.title}</h5>
                             <p>${f.desc}</p>
                             <pre><code class="language-java">${f.code}</code></pre>
                         </div>
@@ -497,7 +656,7 @@
                     <div class="card-inner">
                         <div class="connector"></div>
                         <div class="text-[10px] font-black text-[#b45309] mb-1 uppercase tracking-widest">${v.date}</div>
-                        <h4 class="text-white font-extrabold text-xl">Java ${v.ver}</h4>
+                        <h4 class="text-white font-extrabold text-xl leading-tight">Java ${v.ver}</h4>
                         <div class="print-features">${featuresHtml}</div>
                     </div>`;
                 n.onclick = () => showDetails(v); timeline.appendChild(n);
@@ -554,15 +713,17 @@
 
         function renderTabContent(f) {
             const b = document.getElementById('modal-body');
-            b.innerHTML = `<div class="animate-in fade-in slide-in-from-bottom-2 duration-300"><h3 class="text-2xl font-bold text-white mb-4 border-l-4 border-[#b45309] pl-4">${f.title}</h3><p class="text-slate-400 text-lg leading-relaxed mb-8">${f.desc}</p><div class="relative group"><div class="absolute -inset-0.5 bg-gradient-to-r from-[#b45309] to-[#004b93] rounded-2xl blur opacity-20 transition duration-500"></div><pre class="relative bg-black p-6 rounded-2xl overflow-x-auto border border-white/5"><code class="language-java text-slate-100">${f.code.replace(/</g, "&lt;").replace(/>/g, "&gt;")}</code></pre></div></div>`;
+            b.innerHTML = `<div class="animate-in fade-in slide-in-from-bottom-2 duration-300 h-full flex flex-col"><h3 class="text-xl lg:text-2xl font-bold text-white mb-4 border-l-4 border-[#b45309] pl-4">${f.title}</h3><p class="text-slate-400 text-sm lg:text-lg leading-relaxed mb-6 lg:mb-8">${f.desc}</p><div class="relative group grow"><div class="absolute -inset-0.5 bg-gradient-to-r from-[#b45309] to-[#004b93] rounded-2xl blur opacity-20 transition duration-500"></div><pre class="relative bg-black p-4 lg:p-6 rounded-2xl overflow-x-auto border border-white/5 h-full"><code class="language-java text-slate-100 text-xs lg:text-sm">${f.code.replace(/</g, "&lt;").replace(/>/g, "&gt;")}</code></pre></div></div>`;
             hljs.highlightAll();
         }
 
         function closeModal() {
+            const scrollPos = window.scrollY;
             modal.classList.add('opacity-0', 'pointer-events-none');
             modalContainer.classList.replace('scale-100', 'scale-95');
             document.body.classList.remove('modal-open');
             setSafeHash("");
+            window.scrollTo(0, scrollPos);
         }
 
         function closeModalOnExternalClick(e) { if (e.target === modal) closeModal(); }
