@@ -184,7 +184,7 @@
             }
         }
 
-        /* Print Styles - Optimized for Portrait */
+        /* Print Styles - Optimiert für Hochformat */
         #print-toc {
             display: none;
         }
@@ -199,15 +199,17 @@
                 margin: 1.5cm;
             }
 
+            html,
             body {
-                padding-top: 0 !important;
+                height: auto !important;
                 background-color: white !important;
                 color: black !important;
-                height: auto !important;
+                padding-top: 0 !important;
+                overflow: visible !important;
             }
 
             header,
-            .timeline-wrapper .central-axis,
+            .central-axis,
             .connector,
             .year-marker,
             #modal {
@@ -251,9 +253,11 @@
                 display: flex;
                 justify-content: space-between;
                 border-bottom: 1px dotted #ccc;
+                width: 100%;
+                font-size: 11pt !important;
             }
 
-            /* Vereinheitlichte Schriftgröße im Druck-ToC */
+            /* Vereinheitlichte Schriftgröße im Druck-ToC für Text und Jahreszahlen */
             #print-toc li span {
                 font-size: 11pt !important;
                 line-height: 1.2;
@@ -266,6 +270,10 @@
                 height: auto !important;
                 padding: 0 !important;
                 overflow: visible !important;
+            }
+
+            #timeline {
+                height: auto !important;
             }
 
             .version-node {
