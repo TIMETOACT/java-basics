@@ -561,18 +561,21 @@
             {
                 ver: "1.2", date: "08. Dezember 1998", year: 1998, features: [
                     { title: "Collections", desc: "Standard-Datenstrukturen wie ArrayList, HashMap und HashSet für effizientes Daten-Handling.", code: "import java.util.*;\n\npublic void demo() {\n    List<String> l = new ArrayList<>();\n    l.add(\"Java Evolution\");\n    l.add(\"LTS Roadmap\");\n    for (String s : l) {\n        System.out.println(s);\n    }\n}" },
-                    { title: "Swing UI", desc: "Modernes, plattformunabhängiges UI-Framework (JFC) mit 'Pluggable Look and Feel'.", code: "import javax.swing.*;\n\npublic void showFrame() {\n    JFrame f = new JFrame(\"Swing App\");\n    JButton b = new JButton(\"Klick mich\");\n    f.add(b);\n    f.pack();\n    f.setVisible(true);\n}" }
+                    { title: "Swing UI", desc: "Modernes, plattformunabhängiges UI-Framework (JFC) mit 'Pluggable Look and Feel'.", code: "import javax.swing.*;\n\npublic void showFrame() {\n    JFrame f = new JFrame(\"Swing App\");\n    JButton b = new JButton(\"Klick mich\");\n    f.add(b);\n    f.pack();\n    f.setVisible(true);\n}" },
+                    { title: "JIT Compiler", desc: "Just-in-Time Compiler für native Performance durch Laufzeit-Optimierung des Bytecodes.", code: "// Automatische Optimierung im Hintergrund:\n// 1. HotSpot-Erkennung\n// 2. Inlining von Methoden\n// 3. Loop Unrolling\n// 4. Dead Code Elimination" }
                 ]
             },
             {
                 ver: "1.3", date: "08. Mai 2000", year: 2000, features: [
-                    { title: "HotSpot JVM", desc: "Adaptive Optimierung zur Laufzeit durch Profiling und Just-In-Time-Kompilierung.", code: "// JVM Performance Engine\n// - Profiling des laufenden Codes\n// - Identifikation von 'Hot Spots'\n// - Maschinencode-Generierung\n// - Inlining von Methoden" }
+                    { title: "HotSpot JVM", desc: "Adaptive Optimierung zur Laufzeit durch Profiling und Just-In-Time-Kompilierung.", code: "// JVM Performance Engine\n// - Profiling des laufenden Codes\n// - Identifikation von 'Hot Spots'\n// - Maschinencode-Generierung\n// - Inlining von Methoden" },
+                    { title: "JNDI", desc: "Java Naming and Directory Interface zum Zugriff auf Verzeichnisdienste wie LDAP.", code: "public void lookup(String name) throws NamingException {\n    Context ctx = new InitialContext();\n    DataSource ds = (DataSource) ctx.lookup(name);\n    System.out.println(\"Gefunden: \" + ds);\n}" }
                 ]
             },
             {
                 ver: "1.4", date: "06. Februar 2002", year: 2002, features: [
                     { title: "assert", desc: "Prüfung von Programm-Annahmen zur Qualitätssicherung während der Entwicklung.", code: "public void checkValue(int v) {\n    // Nur aktiv mit -ea Flag\n    assert v > 0 : \"Wert muss positiv sein\";\n    this.value = v;\n    System.out.println(\"Wert ok: \" + v);\n}" },
-                    { title: "NIO", desc: "New I/O System für schnellen, blockierungsfreien Dateizugriff über Buffer und Channels.", code: "FileInputStream fis = new FileInputStream(\"file.txt\");\nFileChannel ch = fis.getChannel();\nByteBuffer buf = ByteBuffer.allocate(1024);\nch.read(buf);\nbuf.flip();" }
+                    { title: "NIO", desc: "New I/O System für schnellen, blockierungsfreien Dateizugriff über Buffer und Channels.", code: "FileInputStream fis = new FileInputStream(\"file.txt\");\nFileChannel ch = fis.getChannel();\nByteBuffer buf = ByteBuffer.allocate(1024);\nch.read(buf);\nbuf.flip();" },
+                    { title: "Util Logging", desc: "Das Standard-Logging-Framework von Java – kein externer Logger nötig.", code: "import java.util.logging.*;\n\npublic void log() {\n    Logger logger = Logger.getLogger(\"MyApp\");\n    logger.info(\"Anwendung gestartet\");\n    logger.warning(\"Achtung: Low Memory\");\n}" }
                 ]
             },
             {
@@ -585,7 +588,8 @@
             },
             {
                 ver: "1.6 (6)", date: "11. Dezember 2006", year: 2006, features: [
-                    { title: "Scripting API", desc: "Integration von Skriptsprachen wie JavaScript (Rhino) in Java-Anwendungen.", code: "import javax.script.*;\n\npublic void runJS() throws Exception {\n    ScriptEngineManager m = new ScriptEngineManager();\n    ScriptEngine e = m.getEngineByName(\"JavaScript\");\n    e.eval(\"print('Skripting in Java!')\");\n}" }
+                    { title: "Scripting API", desc: "Integration von Skriptsprachen wie JavaScript (Rhino) in Java-Anwendungen.", code: "import javax.script.*;\n\npublic void runJS() throws Exception {\n    ScriptEngineManager m = new ScriptEngineManager();\n    ScriptEngine e = m.getEngineByName(\"JavaScript\");\n    e.eval(\"print('Skripting in Java!')\");\n}" },
+                    { title: "WebServices", desc: "Integrierte Unterstützung für SOAP-Webservices (JAX-WS) und XML-Binding (JAXB).", code: "@WebService\npublic class MeinService {\n    @WebMethod\n    public String sagHallo(String name) {\n        return \"Hallo \" + name;\n    }\n}" }
                 ]
             },
             {
@@ -599,19 +603,23 @@
                 ver: "1.8 (8)", date: "18. März 2014", year: 2014, features: [
                     { title: "Lambdas", desc: "Funktionaler Programmierstil durch Code-Blöcke, die als Parameter übergeben werden.", code: "public void sort(List<String> l) {\n    // Kompakte Sortier-Logik\n    l.sort((a, b) -> a.length() - b.length());\n    l.forEach(s -> System.out.println(s));\n}" },
                     { title: "Streams API", desc: "Deklarative Verarbeitung von Datenmenge in Pipelines (Filter, Map, Reduce).", code: "public void process(List<Integer> list) {\n    long result = list.stream()\n        .filter(x -> x > 10)\n        .map(x -> x * 2)\n        .count();\n    System.out.println(\"Gezählt: \" + result);\n}" },
+                    { title: "Date/Time API", desc: "Moderne, unveränderliche Datums-Klassen (java.time) lösen Date und Calendar ab.", code: "public void time() {\n    LocalDate heute = LocalDate.now();\n    LocalDate nextWeek = heute.plusWeeks(1);\n    System.out.println(\"Nächste Woche: \" + nextWeek);\n}" },
                     { title: "Optional", desc: "Container-Objekt zur Vermeidung von NullPointerExceptions und für saubere APIs.", code: "public void printUser(User u) {\n    String name = Optional.ofNullable(u)\n        .map(User::getName)\n        .orElse(\"Unbekannt\");\n    System.out.println(\"User: \" + name);\n}" }
                 ]
             },
             {
                 ver: "1.11 (11)", date: "25. September 2018", year: 2018, features: [
                     { title: "var", desc: "Lokale Typ-Inferenz für weniger Schreibarbeit bei eindeutigen Zuweisungen.", code: "public void varDemo() {\n    var message = \"Java 11\";\n    var liste = new ArrayList<String>();\n    liste.add(message);\n    System.out.println(liste.get(0));\n}" },
-                    { title: "Collection Factories", desc: "Kompakte Erzeugung von unveränderlichen Listen, Sets und Maps (seit Java 9).", code: "public void init() {\n    // Unveränderliche Liste\n    List<String> list = List.of(\"A\", \"B\", \"C\");\n    // Unveränderliche Map\n    Map<String, Integer> map = Map.of(\"K1\", 1, \"K2\", 2);\n}" }
+                    { title: "Collection Factories", desc: "Kompakte Erzeugung von unveränderlichen Listen, Sets und Maps (seit Java 9).", code: "public void init() {\n    // Unveränderliche Liste\n    List<String> list = List.of(\"A\", \"B\", \"C\");\n    // Unveränderliche Map\n    Map<String, Integer> map = Map.of(\"K1\", 1, \"K2\", 2);\n}" },
+                    { title: "HTTP Client", desc: "Moderner, nicht-blockierender HTTP Client mit Support für HTTP/2 und WebSockets.", code: "public void fetch() throws Exception {\n    HttpClient client = HttpClient.newHttpClient();\n    HttpRequest req = HttpRequest.newBuilder()\n        .uri(URI.create(\"https://api.test.com\"))\n        .build();\n    var resp = client.send(req, BodyHandlers.ofString());\n    System.out.println(resp.body());\n}" },
+                    { title: "Modules", desc: "Project Jigsaw: Modularisierung des JDKs und eigener Anwendungen (module-info.java).", code: "// module-info.java\nmodule com.myapp {\n    requires java.sql;\n    exports com.myapp.api;\n}" }
                 ]
             },
             {
                 ver: "1.17 (17)", date: "14. September 2021", year: 2021, features: [
                     { title: "Records", desc: "Unveränderliche Datenklassen, die automatisch Konstruktor, Getter und Co. generieren.", code: "public record User(int id, String name) {\n    // Einzeiler für Daten-Container\n}\n\nUser u = new User(1, \"Tom\");\nSystem.out.println(u.name());" },
                     { title: "Text Blocks", desc: "Mehrzeilige Strings ohne Concatenation-Chaos – ideal für JSON, SQL oder HTML (seit Java 15).", code: 'String html = """\n    &lt;html&gt;\n        &lt;body&gt;\n            &lt;h1&gt;Hallo Welt&lt;/h1&gt;\n        &lt;/body&gt;\n    &lt;/html&gt;\n    """;' },
+                    { title: "Switch Expr.", desc: "Switch als Ausdruck, der einen Wert zurückgibt (kein break nötig, exhaustiveness check).", code: "var result = switch(day) {\n    case MONDAY, FRIDAY -> \"Homeoffice\";\n    case TUESDAY        -> \"Büro\";\n    default             -> \"Frei\";\n};\nSystem.out.println(result);" },
                     { title: "Pattern Matching", desc: "instanceof mit direkter Variablen-Zuweisung erspart unsichere Casts (seit Java 16).", code: "public void check(Object obj) {\n    // Variable 's' ist direkt nutzbar\n    if (obj instanceof String s && s.length() > 5) {\n        System.out.println(s.toUpperCase());\n    }\n}" },
                     { title: "Sealed Classes", desc: "Präzise Steuerung der Vererbungshierarchie durch explizite Freigabe von Unterklassen.", code: "public sealed class Form permits Kreis, Eck {\n    // Nur definierte Klassen dürfen erben\n}\n\nfinal class Kreis extends Form { }" }
                 ]
@@ -625,7 +633,9 @@
             },
             {
                 ver: "1.25 (25)", date: "16. September 2025", year: 2025, features: [
-                    { title: "Stream Gather.", desc: "Benutzerdefinierte Zwischenoperationen für komplexe Transformationen in Streams.", code: "public void groups() {\n    var res = Stream.of(1,2,3,4,5)\n        .gather(Gatherers.windowFixed(3))\n        .toList();\n    // Result: [[1,2,3], [4,5]]\n}" }
+                    { title: "Stream Gather.", desc: "Benutzerdefinierte Zwischenoperationen für komplexe Transformationen in Streams.", code: "public void groups() {\n    var res = Stream.of(1,2,3,4,5)\n        .gather(Gatherers.windowFixed(3))\n        .toList();\n    // Result: [[1,2,3], [4,5]]\n}" },
+                    { title: "Class File API", desc: "Standardisierte API zum Parsen, Generieren und Transformieren von Java Class-Files.", code: "public void parse(byte[] bytes) {\n    ClassFile cf = ClassFile.of();\n    ClassModel cm = cf.parse(bytes);\n    System.out.println(\"Class: \" + cm.thisClass().asSymbol());\n}" },
+                    { title: "Flexible Constr.", desc: "Erlaubt Code-Ausführung im Konstruktor *vor* dem super()-Aufruf.", code: "public class Sub extends Base {\n    public Sub(int value) {\n        // Validierung VOR super() möglich\n        if (value < 0) throw new IllegalArgumentException();\n        super(value);\n    }\n}" }
                 ]
             }
         ];
