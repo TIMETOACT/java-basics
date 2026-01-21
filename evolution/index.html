@@ -10,23 +10,29 @@
         href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/atom-one-dark.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/languages/java.min.js"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Chivo+Mono:wght@400;500;600&display=swap"
+        rel="stylesheet">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Fira+Code:wght@400&display=swap');
-
         :root {
-            --at-orange: #b45309;
-            --at-orange-light: #d97706;
-            --at-blue: #004b93;
-            --at-dark: #0a0a0a;
+            --at-orange: #ff5401;
+            --at-orange-light: #e64d00;
+            --at-blue: #60a5fa;
+            --at-dark: #020617;
             --year-height: 120px;
         }
 
         body {
             background-color: var(--at-dark);
-            color: #f8fafc;
-            font-family: 'Inter', sans-serif;
+            color: #f1f5f9;
+            font-family: 'Outfit', sans-serif;
             scroll-behavior: smooth;
             padding-top: 80px;
+        }
+
+        code,
+        pre {
+            font-family: 'Chivo Mono', monospace;
         }
 
         /* Timeline Styles */
@@ -43,7 +49,7 @@
             width: 3px;
             background: linear-gradient(to bottom, var(--at-orange), var(--at-blue), var(--at-orange));
             transform: translateX(-50%);
-            box-shadow: 0 0 20px rgba(180, 83, 9, 0.3);
+            box-shadow: 0 0 20px rgba(255, 84, 1, 0.3);
         }
 
         .year-marker {
@@ -95,7 +101,7 @@
         .version-node:hover .card-inner {
             border-color: var(--at-orange);
             background: rgba(30, 30, 30, 0.9);
-            box-shadow: 0 0 30px rgba(180, 83, 9, 0.2);
+            box-shadow: 0 0 30px rgba(255, 84, 1, 0.2);
         }
 
         .connector {
@@ -159,7 +165,7 @@
             background-color: var(--at-orange);
             border-color: var(--at-orange-light);
             color: #fff;
-            box-shadow: 0 0 15px rgba(180, 83, 9, 0.5);
+            box-shadow: 0 0 15px rgba(255, 84, 1, 0.5);
         }
 
         body.modal-open {
@@ -172,15 +178,15 @@
 
         @keyframes pulse-orange {
             0% {
-                box-shadow: 0 0 0 0 rgba(180, 83, 9, 0.4);
+                box-shadow: 0 0 0 0 rgba(255, 84, 1, 0.4);
             }
 
             70% {
-                box-shadow: 0 0 0 10px rgba(180, 83, 9, 0);
+                box-shadow: 0 0 0 10px rgba(255, 84, 1, 0);
             }
 
             100% {
-                box-shadow: 0 0 0 0 rgba(180, 83, 9, 0);
+                box-shadow: 0 0 0 0 rgba(255, 84, 1, 0);
             }
         }
 
@@ -227,7 +233,7 @@
                 font-size: 26pt;
                 margin-bottom: 12pt;
                 font-weight: 800;
-                border-bottom: 3px solid #b45309;
+                border-bottom: 3px solid #ff5401;
                 padding-bottom: 8pt;
             }
 
@@ -299,7 +305,7 @@
             }
 
             .card-inner h4 {
-                color: #b45309 !important;
+                color: #ff5401 !important;
                 font-size: 22pt !important;
                 font-weight: 900;
                 margin: 20pt 0 15pt 0 !important;
@@ -440,7 +446,7 @@
         class="fixed top-0 left-0 right-0 h-20 bg-black/90 backdrop-blur-md border-b border-white/5 z-[100] flex items-center px-4 lg:px-12 justify-between">
         <div class="flex items-center gap-3">
             <div
-                class="w-10 h-10 bg-[#b45309] rounded-lg flex items-center justify-center font-black text-white text-xl shadow-[0_0_15px_rgba(180,83,9,0.3)]">
+                class="w-10 h-10 bg-[#ff5401] rounded-lg flex items-center justify-center font-black text-white text-xl shadow-[0_0_15px_rgba(255,84,1,0.3)]">
                 A</div>
             <span class="text-white font-bold text-lg tracking-tight hidden sm:block">Academy</span>
         </div>
@@ -449,7 +455,7 @@
             <span class="text-slate-400 text-sm font-medium hidden md:block">Fragen zu Java-Themen?</span>
             <div class="flex items-center gap-2 lg:gap-4">
                 <button onclick="handleCtaClick()"
-                    class="cta-glow bg-[#b45309] hover:bg-[#d97706] text-white px-4 lg:px-6 py-2.5 rounded-full font-bold text-xs lg:text-sm transition-all transform active:scale-95 flex items-center gap-2">
+                    class="cta-glow bg-[#ff5401] hover:bg-[#e64d00] text-white px-4 lg:px-6 py-2.5 rounded-full font-bold text-xs lg:text-sm transition-all transform active:scale-95 flex items-center gap-2">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z">
@@ -474,7 +480,7 @@
     <section id="print-toc" class="px-8">
         <h1>Java Evolution: LTS Roadmap</h1>
         <div class="print-c2a-box">
-            <p style="font-weight: bold; color: #b45309;">Fragen zu Java-Themen?</p>
+            <p style="font-weight: bold; color: #ff5401;">Fragen zu Java-Themen?</p>
             <p style="font-size: 10pt; color: #444;">Für Beratung rund um Java-Schulungen kontaktieren Sie uns unter:
             </p>
             <p style="font-family: monospace; font-weight: bold; font-size: 12pt;">competence-center@atvantage.com</p>
@@ -487,7 +493,7 @@
     <div class="max-w-6xl mx-auto px-4 mt-8 lg:mt-12">
         <div class="text-center mb-24 lg:mb-40">
             <h1 class="text-4xl lg:text-7xl font-black text-white mb-6">Java <span
-                    class="text-[#b45309]">Evolution</span></h1>
+                    class="text-[#ff5401]">Evolution</span></h1>
             <p class="text-slate-400 text-base lg:text-xl max-w-3xl mx-auto font-light leading-relaxed">
                 Interaktive Roadmap der Java LTS Versionen (1.0 bis 1.25).
             </p>
@@ -511,7 +517,7 @@
                     <h2 class="text-2xl lg:text-4xl font-black text-white leading-tight">Java Version</h2>
                     <div class="flex items-center gap-3 mt-2">
                         <span
-                            class="px-3 py-1 bg-[#b45309]/20 text-[#b45309] rounded-full text-[9px] font-black border border-[#b45309]/40 uppercase tracking-widest">LTS
+                            class="px-3 py-1 bg-[#ff5401]/20 text-[#ff5401] rounded-full text-[9px] font-black border border-[#ff5401]/40 uppercase tracking-widest">LTS
                             Release</span>
                         <p class="text-slate-500 font-medium text-xs lg:text-sm" id="modal-release-date">Release Datum
                         </p>
@@ -663,7 +669,7 @@
                 n.innerHTML = `
                     <div class="card-inner">
                         <div class="connector"></div>
-                        <div class="text-[10px] font-black text-[#b45309] mb-1 uppercase tracking-widest">${v.date}</div>
+                        <div class="text-[10px] font-black text-[#ff5401] mb-1 uppercase tracking-widest">${v.date}</div>
                         <h4 class="text-white font-extrabold text-xl leading-tight">Java ${v.ver}</h4>
                         <div class="print-features">${featuresHtml}</div>
                     </div>`;
@@ -721,7 +727,7 @@
 
         function renderTabContent(f) {
             const b = document.getElementById('modal-body');
-            b.innerHTML = `<div class="animate-in fade-in slide-in-from-bottom-2 duration-300 h-full flex flex-col"><h3 class="text-xl lg:text-2xl font-bold text-white mb-4 border-l-4 border-[#b45309] pl-4">${f.title}</h3><p class="text-slate-400 text-sm lg:text-lg leading-relaxed mb-6 lg:mb-8">${f.desc}</p><div class="relative group grow"><div class="absolute -inset-0.5 bg-gradient-to-r from-[#b45309] to-[#004b93] rounded-2xl blur opacity-20 transition duration-500"></div><pre class="relative bg-black p-4 lg:p-6 rounded-2xl overflow-x-auto border border-white/5 h-full"><code class="language-java text-slate-100 text-xs lg:text-sm">${f.code.replace(/</g, "&lt;").replace(/>/g, "&gt;")}</code></pre></div></div>`;
+            b.innerHTML = `<div class="animate-in fade-in slide-in-from-bottom-2 duration-300 h-full flex flex-col"><h3 class="text-xl lg:text-2xl font-bold text-white mb-4 border-l-4 border-[#ff5401] pl-4">${f.title}</h3><p class="text-slate-400 text-sm lg:text-lg leading-relaxed mb-6 lg:mb-8">${f.desc}</p><div class="relative group grow"><div class="absolute -inset-0.5 bg-gradient-to-r from-[#ff5401] to-[#60a5fa] rounded-2xl blur opacity-20 transition duration-500"></div><pre class="relative bg-black p-4 lg:p-6 rounded-2xl overflow-x-auto border border-white/5 h-full"><code class="language-java text-slate-100 text-xs lg:text-sm">${f.code.replace(/</g, "&lt;").replace(/>/g, "&gt;")}</code></pre></div></div>`;
             hljs.highlightAll();
         }
 
