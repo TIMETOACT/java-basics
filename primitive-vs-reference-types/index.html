@@ -104,18 +104,43 @@
 
         /* Responsive: Stack columns on narrow screens */
         @media (max-width: 1024px) {
-            .content-grid {
-                grid-template-columns: 1fr;
+            body {
+                height: auto;
+                min-height: 100vh;
                 overflow-y: auto;
             }
 
+            .main-content {
+                flex: none;
+                overflow: visible;
+                padding-top: calc(56px + 0.5rem);
+                padding-bottom: 100px;
+                /* Platz für fixe Navigation */
+            }
+
+            .content-grid {
+                grid-template-columns: 1fr;
+                overflow: visible;
+                flex: none;
+            }
+
             .panel {
-                min-height: 300px;
+                min-height: auto;
                 max-height: none;
+                overflow: visible;
             }
 
             .panel-content {
                 overflow-y: visible;
+                max-height: none;
+            }
+
+            .nav-footer {
+                position: fixed;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                z-index: 100;
             }
         }
 
@@ -208,6 +233,122 @@
             .collapsed-bar {
                 display: none !important;
             }
+        }
+
+        /* C2A Header Bar */
+        .cta-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 56px;
+            background: rgba(2, 6, 23, 0.95);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            z-index: 200;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 1rem;
+        }
+
+        @media (min-width: 768px) {
+            .cta-header {
+                padding: 0 2rem;
+            }
+        }
+
+        .cta-header .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .cta-header .logo-icon {
+            width: 36px;
+            height: 36px;
+            background: #ff5401;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 1.25rem;
+            color: white;
+            box-shadow: 0 0 15px rgba(255, 84, 1, 0.3);
+        }
+
+        .cta-header .logo-text {
+            font-weight: 700;
+            font-size: 1rem;
+            color: white;
+            display: none;
+        }
+
+        @media (min-width: 640px) {
+            .cta-header .logo-text {
+                display: block;
+            }
+        }
+
+        .cta-header .cta-right {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        @media (min-width: 768px) {
+            .cta-header .cta-right {
+                gap: 1.5rem;
+            }
+        }
+
+        .cta-header .cta-text {
+            color: #94a3b8;
+            font-size: 0.875rem;
+            font-weight: 500;
+            display: none;
+        }
+
+        @media (min-width: 768px) {
+            .cta-header .cta-text {
+                display: block;
+            }
+        }
+
+        .cta-header .cta-btn {
+            background: #ff5401;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 9999px;
+            font-weight: 700;
+            font-size: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.2s;
+            border: none;
+            cursor: pointer;
+        }
+
+        .cta-header .cta-btn:hover {
+            background: #e64d00;
+        }
+
+        .cta-header .cta-btn:active {
+            transform: scale(0.95);
+        }
+
+        @media (min-width: 768px) {
+            .cta-header .cta-btn {
+                padding: 0.625rem 1.25rem;
+                font-size: 0.8125rem;
+            }
+        }
+
+        /* Adjust main content for header */
+        .main-content {
+            padding-top: calc(56px + 1rem);
         }
 
         code,
@@ -347,6 +488,25 @@
 </head>
 
 <body>
+    <!-- C2A Header Bar -->
+    <header class="cta-header">
+        <div class="logo">
+            <div class="logo-icon">A</div>
+            <span class="logo-text">Academy</span>
+        </div>
+        <div class="cta-right">
+            <span class="cta-text">Fragen zu Java-Themen?</span>
+            <button class="cta-btn" onclick="handleCtaClick()">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z">
+                    </path>
+                </svg>
+                Schulungs-Beratung
+            </button>
+        </div>
+    </header>
+
     <!-- Main Content Area -->
     <div class="main-content">
 
@@ -1193,6 +1353,15 @@
         });
 
         renderStep(0);
+
+        // C2A Button Click Handler
+        function handleCtaClick() {
+            const p1 = "competence";
+            const p2 = "center";
+            const dom = "atvantage.com";
+            const mail = `${p1}-${p2}@${dom}`;
+            window.location.href = `mailto:${mail}?subject=Beratungsanfrage Java-Schulung`;
+        }
     </script>
 </body>
 
