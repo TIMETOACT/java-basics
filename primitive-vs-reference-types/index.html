@@ -8,7 +8,9 @@
 
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Chivo+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Chivo+Mono:wght@400;500;600&display=swap"
+        rel="stylesheet">
 
     <script>
         tailwind.config = {
@@ -31,18 +33,187 @@
     </script>
 
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
             background-color: #020617;
             color: #f1f5f9;
             font-family: 'Outfit', sans-serif;
-            min-height: 100vh;
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
             -webkit-font-smoothing: antialiased;
-            font-size: 20px;
+            font-size: 18px;
         }
 
-        code, .mono { font-family: 'Chivo Mono', monospace; }
+        /* Main content area - fills remaining space */
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            padding: 1rem;
+            gap: 1rem;
+        }
+
+        /* 3-Column Grid */
+        .content-grid {
+            flex: 1;
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 1rem;
+            overflow: hidden;
+            min-height: 0;
+        }
+
+        /* Each column panel */
+        .panel {
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            background: #1e293b;
+            border-radius: 1rem;
+            border: 1px solid #334155;
+        }
+
+        .panel-header {
+            padding: 0.75rem 1rem;
+            border-bottom: 1px solid #334155;
+            flex-shrink: 0;
+        }
+
+        .panel-content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 1rem;
+            min-height: 0;
+        }
+
+        /* Fixed navigation footer */
+        .nav-footer {
+            flex-shrink: 0;
+            background: #0f172a;
+            border-top: 1px solid #334155;
+            padding: 0.75rem 1rem;
+        }
+
+        /* Responsive: Stack columns on narrow screens */
+        @media (max-width: 1024px) {
+            .content-grid {
+                grid-template-columns: 1fr;
+                overflow-y: auto;
+            }
+
+            .panel {
+                min-height: 300px;
+                max-height: none;
+            }
+
+            .panel-content {
+                overflow-y: visible;
+            }
+        }
+
+        /* Collapsible explanation panel (Desktop only) */
+        @media (min-width: 1025px) {
+            .content-grid {
+                transition: grid-template-columns 0.3s ease;
+            }
+
+            .content-grid.explanation-collapsed {
+                grid-template-columns: 1fr 1fr 48px;
+            }
+
+            .panel-explanation {
+                transition: all 0.3s ease;
+                min-width: 0;
+                overflow: hidden;
+            }
+
+            .panel-explanation.collapsed {
+                min-width: 48px;
+                max-width: 48px;
+                padding: 0;
+            }
+
+            .panel-explanation.collapsed .panel-header,
+            .panel-explanation.collapsed .panel-content {
+                display: none;
+            }
+
+            .panel-explanation.collapsed .collapsed-bar {
+                display: flex;
+            }
+
+            .collapsed-bar {
+                display: none;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                height: 100%;
+                padding: 1rem 0;
+                cursor: pointer;
+            }
+
+            .collapsed-bar:hover {
+                background: #334155;
+            }
+
+            .collapsed-bar .collapsed-icon {
+                font-size: 1.25rem;
+                color: #facc15;
+                margin-bottom: 0.5rem;
+            }
+
+            .collapsed-bar .collapsed-text {
+                writing-mode: vertical-rl;
+                text-orientation: mixed;
+                font-size: 0.875rem;
+                color: #94a3b8;
+                font-weight: 500;
+            }
+
+            .toggle-btn {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                width: 28px;
+                height: 28px;
+                border-radius: 6px;
+                background: #334155;
+                border: none;
+                color: #94a3b8;
+                cursor: pointer;
+                transition: all 0.2s;
+                flex-shrink: 0;
+            }
+
+            .toggle-btn:hover {
+                background: #475569;
+                color: #f1f5f9;
+            }
+        }
+
+        /* Hide toggle on mobile */
+        @media (max-width: 1024px) {
+            .toggle-btn {
+                display: none !important;
+            }
+
+            .collapsed-bar {
+                display: none !important;
+            }
+        }
+
+        code,
+        .mono {
+            font-family: 'Chivo Mono', monospace;
+        }
 
         /* Memory Cell Animations */
         .memory-cell {
@@ -54,8 +225,15 @@
         }
 
         @keyframes pulse-glow {
-            0%, 100% { box-shadow: 0 0 0 0 rgba(255, 84, 1, 0.4); }
-            50% { box-shadow: 0 0 25px 8px rgba(255, 84, 1, 0.6); }
+
+            0%,
+            100% {
+                box-shadow: 0 0 0 0 rgba(255, 84, 1, 0.4);
+            }
+
+            50% {
+                box-shadow: 0 0 25px 8px rgba(255, 84, 1, 0.6);
+            }
         }
 
         .fade-in {
@@ -63,8 +241,15 @@
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         /* Arrow fade-in animation */
@@ -74,8 +259,13 @@
         }
 
         @keyframes arrowFadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
         }
 
         /* Code highlight */
@@ -100,10 +290,22 @@
         }
 
         /* Scrollbar */
-        ::-webkit-scrollbar { width: 10px; }
-        ::-webkit-scrollbar-track { background: #1e293b; }
-        ::-webkit-scrollbar-thumb { background: #475569; border-radius: 5px; }
-        ::-webkit-scrollbar-thumb:hover { background: #64748b; }
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #1e293b;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #475569;
+            border-radius: 5px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #64748b;
+        }
 
         /* Memory visualization container */
         .memory-viz-container {
@@ -132,184 +334,262 @@
         }
 
         @keyframes valueChange {
-            0% { transform: scale(1.3); color: #ff5401; }
-            100% { transform: scale(1); }
+            0% {
+                transform: scale(1.3);
+                color: #ff5401;
+            }
+
+            100% {
+                transform: scale(1);
+            }
         }
     </style>
 </head>
 
-<body class="p-6">
-    <div class="w-full">
-        
-        <!-- Header -->
-        <header class="text-center mb-6">
-            <h1 class="text-5xl font-bold mb-3">
-                <span class="text-atvantage-orange">Primitive</span> vs. 
+<body>
+    <!-- Main Content Area -->
+    <div class="main-content">
+
+        <!-- Compact Header -->
+        <header class="text-center flex-shrink-0">
+            <h1 class="text-3xl md:text-4xl font-bold mb-1">
+                <span class="text-atvantage-orange">Primitive</span> vs.
                 <span class="text-blue-400">Referenztypen</span>
             </h1>
-            <p class="text-slate-400 text-2xl">Wie Java Variablen im Speicher verwaltet</p>
+            <p class="text-slate-400 text-lg">Wie Java Variablen im Speicher verwaltet</p>
         </header>
 
         <!-- Step Indicator -->
-        <div class="flex justify-center gap-4 mb-6">
-            <div class="step-dot w-4 h-4 rounded-full bg-slate-600 active" data-step="0"></div>
-            <div class="step-dot w-4 h-4 rounded-full bg-slate-600" data-step="1"></div>
-            <div class="step-dot w-4 h-4 rounded-full bg-slate-600" data-step="2"></div>
-            <div class="step-dot w-4 h-4 rounded-full bg-slate-600" data-step="3"></div>
-            <div class="step-dot w-4 h-4 rounded-full bg-slate-600" data-step="4"></div>
-            <div class="step-dot w-4 h-4 rounded-full bg-slate-600" data-step="5"></div>
-            <div class="step-dot w-4 h-4 rounded-full bg-slate-600" data-step="6"></div>
-            <div class="step-dot w-4 h-4 rounded-full bg-slate-600" data-step="7"></div>
-            <div class="step-dot w-4 h-4 rounded-full bg-slate-600" data-step="8"></div>
+        <div class="flex justify-center gap-3 flex-shrink-0">
+            <div class="step-dot w-3 h-3 rounded-full bg-slate-600 active" data-step="0"></div>
+            <div class="step-dot w-3 h-3 rounded-full bg-slate-600" data-step="1"></div>
+            <div class="step-dot w-3 h-3 rounded-full bg-slate-600" data-step="2"></div>
+            <div class="step-dot w-3 h-3 rounded-full bg-slate-600" data-step="3"></div>
+            <div class="step-dot w-3 h-3 rounded-full bg-slate-600" data-step="4"></div>
+            <div class="step-dot w-3 h-3 rounded-full bg-slate-600" data-step="5"></div>
+            <div class="step-dot w-3 h-3 rounded-full bg-slate-600" data-step="6"></div>
+            <div class="step-dot w-3 h-3 rounded-full bg-slate-600" data-step="7"></div>
+            <div class="step-dot w-3 h-3 rounded-full bg-slate-600" data-step="8"></div>
+            <div class="step-dot w-3 h-3 rounded-full bg-slate-600" data-step="9"></div>
         </div>
 
-        <!-- Main Content Grid -->
-        <div class="grid grid-cols-2 gap-6 mb-6">
-            
-            <!-- Left: Code Panel -->
-            <div class="bg-bg-slate rounded-2xl border border-slate-700 p-6">
-                <div class="flex items-center gap-3 mb-5">
-                    <i class="fa-solid fa-code text-atvantage-orange text-2xl"></i>
-                    <h2 class="text-2xl font-semibold">Java-Code</h2>
+        <!-- 3-Column Content Grid -->
+        <div class="content-grid">
+
+            <!-- Column 1: Code Panel -->
+            <div class="panel">
+                <div class="panel-header">
+                    <div class="flex items-center gap-2">
+                        <i class="fa-solid fa-code text-atvantage-orange text-xl"></i>
+                        <h2 class="text-xl font-semibold">Java-Code</h2>
+                    </div>
                 </div>
-                
-                <div class="bg-bg-deep rounded-xl p-6 font-mono text-xl leading-loose">
-                    <div id="code-line-1" class="py-2 px-3 rounded transition-all duration-300">
-                        <span class="text-purple-400">int</span> 
-                        <span class="text-blue-300">kontostand</span> 
-                        <span class="text-slate-400">=</span> 
-                        <span class="text-green-400">10</span><span class="text-slate-400">;</span>
-                    </div>
-                    <div id="code-line-2" class="py-2 px-3 rounded transition-all duration-300 opacity-40">
-                        <span class="text-purple-400">int</span> 
-                        <span class="text-blue-300">kopie</span> 
-                        <span class="text-slate-400">=</span> 
-                        <span class="text-blue-300">kontostand</span><span class="text-slate-400">;</span>
-                    </div>
-                    <div class="my-4 border-t border-slate-700"></div>
-                    <div id="code-line-3" class="py-2 px-3 rounded transition-all duration-300 opacity-40">
-                        <span class="text-yellow-400">Konto</span> 
-                        <span class="text-blue-300">konto</span> 
-                        <span class="text-slate-400">=</span> 
-                        <span class="text-purple-400">new</span> 
-                        <span class="text-yellow-400">Konto</span><span class="text-slate-400">();</span>
-                    </div>
-                    <div id="code-line-4" class="py-2 px-3 rounded transition-all duration-300 opacity-40">
-                        <span class="text-blue-300">konto</span><span class="text-slate-400">.</span><span class="text-blue-300">stand</span> 
-                        <span class="text-slate-400">=</span> 
-                        <span class="text-green-400">10</span><span class="text-slate-400">;</span>
-                    </div>
-                    <div id="code-line-5" class="py-2 px-3 rounded transition-all duration-300 opacity-40">
-                        <span class="text-yellow-400">Konto</span> 
-                        <span class="text-blue-300">zweites</span> 
-                        <span class="text-slate-400">=</span> 
-                        <span class="text-blue-300">konto</span><span class="text-slate-400">;</span>
-                    </div>
-                    <div id="code-line-6" class="py-2 px-3 rounded transition-all duration-300 opacity-40">
-                        <span class="text-blue-300">zweites</span><span class="text-slate-400">.</span><span class="text-blue-300">stand</span> 
-                        <span class="text-slate-400">=</span> 
-                        <span class="text-green-400">20</span><span class="text-slate-400">;</span>
-                    </div>
-                    <div id="code-line-7" class="py-2 px-3 rounded transition-all duration-300 opacity-40">
-                        <span class="text-blue-300">konto</span> 
-                        <span class="text-slate-400">=</span> 
-                        <span class="text-red-400">null</span><span class="text-slate-400">;</span>
+                <div class="panel-content">
+                    <div class="bg-bg-deep rounded-xl p-4 font-mono text-base leading-relaxed">
+                        <div id="code-line-1" class="py-1.5 px-2 rounded transition-all duration-300 opacity-40">
+                            <span class="text-purple-400">int</span>
+                            <span class="text-blue-300">kontostand</span>
+                            <span class="text-slate-400">=</span>
+                            <span class="text-green-400">10</span><span class="text-slate-400">;</span>
+                        </div>
+                        <div id="code-line-2" class="py-1.5 px-2 rounded transition-all duration-300 opacity-40">
+                            <span class="text-purple-400">int</span>
+                            <span class="text-blue-300">kopie</span>
+                            <span class="text-slate-400">=</span>
+                            <span class="text-blue-300">kontostand</span><span class="text-slate-400">;</span>
+                        </div>
+                        <div class="my-3 border-t border-slate-700"></div>
+                        <div id="code-line-3" class="py-1.5 px-2 rounded transition-all duration-300 opacity-40">
+                            <span class="text-yellow-400">Konto</span>
+                            <span class="text-blue-300">konto</span>
+                            <span class="text-slate-400">=</span>
+                            <span class="text-purple-400">new</span>
+                            <span class="text-yellow-400">Konto</span><span class="text-slate-400">();</span>
+                        </div>
+                        <div id="code-line-4" class="py-1.5 px-2 rounded transition-all duration-300 opacity-40">
+                            <span class="text-blue-300">konto</span><span class="text-slate-400">.</span><span
+                                class="text-blue-300">stand</span>
+                            <span class="text-slate-400">=</span>
+                            <span class="text-green-400">10</span><span class="text-slate-400">;</span>
+                        </div>
+                        <div id="code-line-5" class="py-1.5 px-2 rounded transition-all duration-300 opacity-40">
+                            <span class="text-yellow-400">Konto</span>
+                            <span class="text-blue-300">zweites</span>
+                            <span class="text-slate-400">=</span>
+                            <span class="text-blue-300">konto</span><span class="text-slate-400">;</span>
+                        </div>
+                        <div id="code-line-6" class="py-1.5 px-2 rounded transition-all duration-300 opacity-40">
+                            <span class="text-blue-300">zweites</span><span class="text-slate-400">.</span><span
+                                class="text-blue-300">stand</span>
+                            <span class="text-slate-400">=</span>
+                            <span class="text-green-400">20</span><span class="text-slate-400">;</span>
+                        </div>
+                        <div id="code-line-7" class="py-1.5 px-2 rounded transition-all duration-300 opacity-40">
+                            <span class="text-blue-300">konto</span>
+                            <span class="text-slate-400">=</span>
+                            <span class="text-red-400">null</span><span class="text-slate-400">;</span>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Right: Memory Visualization -->
-            <div class="bg-bg-slate rounded-2xl border border-slate-700 p-6">
-                <div class="flex items-center gap-3 mb-5">
-                    <i class="fa-solid fa-memory text-blue-400 text-2xl"></i>
-                    <h2 class="text-2xl font-semibold">Speicher</h2>
+            <!-- Column 2: Memory Visualization -->
+            <div class="panel">
+                <div class="panel-header">
+                    <div class="flex items-center gap-2">
+                        <i class="fa-solid fa-memory text-blue-400 text-xl"></i>
+                        <h2 class="text-xl font-semibold">Speicher</h2>
+                    </div>
+                </div>
+                <div class="panel-content">
+                    <div class="memory-viz-container">
+                        <!-- SVG Overlay for Arrows -->
+                        <svg id="arrow-svg" class="arrow-svg-overlay" style="overflow: visible;"></svg>
+
+                        <div class="grid grid-cols-2 gap-3">
+                            <!-- Stack -->
+                            <div>
+                                <div class="flex items-center gap-2 mb-2">
+                                    <div class="w-3 h-3 rounded bg-atvantage-orange"></div>
+                                    <span class="text-sm font-semibold text-slate-300">STACK</span>
+                                </div>
+                                <div id="stack-container"
+                                    class="bg-bg-deep rounded-lg p-3 min-h-[200px] border-2 border-atvantage-orange/30">
+                                    <div id="stack-content" class="space-y-2"></div>
+                                </div>
+                                <p class="text-xs text-slate-500 mt-1 text-center">Lokale Variablen</p>
+                            </div>
+
+                            <!-- Heap -->
+                            <div>
+                                <div class="flex items-center gap-2 mb-2">
+                                    <div class="w-3 h-3 rounded bg-blue-400"></div>
+                                    <span class="text-sm font-semibold text-slate-300">HEAP</span>
+                                </div>
+                                <div id="heap-container"
+                                    class="bg-bg-deep rounded-lg p-3 min-h-[200px] border-2 border-blue-400/30 relative">
+                                    <div id="heap-content" class="space-y-2"></div>
+                                </div>
+                                <p class="text-xs text-slate-500 mt-1 text-center">Objekte (new)</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Column 3: Explanation Panel (Collapsible on Desktop) -->
+            <div class="panel panel-explanation" id="explanation-panel">
+                <!-- Collapsed Bar (shown when collapsed) -->
+                <div class="collapsed-bar" onclick="toggleExplanation()">
+                    <i class="fa-solid fa-lightbulb collapsed-icon"></i>
+                    <span class="collapsed-text">Erklärung</span>
                 </div>
 
-                <div class="memory-viz-container">
-                    <!-- SVG Overlay for Arrows -->
-                    <svg id="arrow-svg" class="arrow-svg-overlay" style="overflow: visible;">
+                <div class="panel-header">
+                    <div class="flex items-center justify-between gap-2">
+                        <div class="flex items-center gap-2">
+                            <i class="fa-solid fa-lightbulb text-yellow-400 text-xl"></i>
+                            <h2 class="text-xl font-semibold">Was passiert hier?</h2>
+                        </div>
+                        <button class="toggle-btn" onclick="toggleExplanation()" title="Einklappen">
+                            <i class="fa-solid fa-chevron-right" id="toggle-icon"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="panel-content">
+                    <div id="explanation" class="text-slate-300 text-base leading-relaxed">
+                        <p>Klicke auf <strong class="text-atvantage-orange">„Start"</strong>, um zu sehen, wie Java
+                            Variablen im Speicher anlegt.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Fixed Navigation Footer -->
+    <div class="nav-footer">
+        <div class="flex flex-col md:flex-row items-center justify-center gap-3 md:gap-6">
+            <!-- Navigation Controls -->
+            <div class="flex items-center gap-4">
+                <button id="prevBtn" onclick="prevStep()" disabled
+                    class="px-5 py-2 rounded-full bg-bg-slate border border-slate-600 text-white text-base font-semibold transition-all hover:bg-bg-slate-light disabled:opacity-30 disabled:cursor-not-allowed">
+                    <i class="fa-solid fa-chevron-left mr-2"></i> Zurück
+                </button>
+                <span id="step-counter" class="font-mono text-slate-400 text-lg px-3">1 / 10</span>
+                <button id="nextBtn" onclick="nextStep()"
+                    class="px-5 py-2 rounded-full bg-atvantage-orange text-white text-base font-semibold transition-all hover:bg-orange-600">
+                    <span id="nextBtnText">Start</span> <i class="fa-solid fa-chevron-right ml-2"></i>
+                </button>
+            </div>
+
+            <!-- Legend -->
+            <div class="flex flex-wrap justify-center gap-4 text-sm text-slate-400">
+                <div class="flex items-center gap-2">
+                    <div class="w-4 h-4 rounded bg-atvantage-orange/30 border-2 border-atvantage-orange"></div>
+                    <span>Primitiv</span>
+                </div>
+                <div class="flex items-center gap-2">
+                    <div class="w-4 h-4 rounded bg-blue-400/30 border-2 border-blue-400"></div>
+                    <span>Referenz</span>
+                </div>
+                <div class="flex items-center gap-2">
+                    <svg width="30" height="16" viewBox="0 0 30 16">
+                        <line x1="2" y1="8" x2="22" y2="8" stroke="#60a5fa" stroke-width="2" />
+                        <polygon points="22,4 28,8 22,12" fill="#60a5fa" />
                     </svg>
-
-                    <div class="grid grid-cols-2 gap-5">
-                        <!-- Stack -->
-                        <div>
-                            <div class="flex items-center gap-3 mb-4">
-                                <div class="w-4 h-4 rounded bg-atvantage-orange"></div>
-                                <span class="text-xl font-semibold text-slate-300">STACK</span>
-                            </div>
-                            <div id="stack-container" class="bg-bg-deep rounded-xl p-5 min-h-[340px] border-2 border-atvantage-orange/30">
-                                <div id="stack-content" class="space-y-4">
-                                </div>
-                            </div>
-                            <p class="text-xl text-slate-500 mt-3 text-center">Lokale Variablen & Referenzen</p>
-                        </div>
-
-                        <!-- Heap -->
-                        <div>
-                            <div class="flex items-center gap-3 mb-4">
-                                <div class="w-4 h-4 rounded bg-blue-400"></div>
-                                <span class="text-xl font-semibold text-slate-300">HEAP</span>
-                            </div>
-                            <div id="heap-container" class="bg-bg-deep rounded-xl p-5 min-h-[340px] border-2 border-blue-400/30 relative">
-                                <div id="heap-content" class="space-y-4">
-                                </div>
-                            </div>
-                            <p class="text-xl text-slate-500 mt-3 text-center">Objekte (new ...)</p>
-                        </div>
-                    </div>
+                    <span>Zeiger</span>
                 </div>
-            </div>
-        </div>
-
-        <!-- Explanation Panel -->
-        <div class="bg-bg-slate rounded-2xl border border-slate-700 p-6 mb-6">
-            <div class="flex items-center gap-3 mb-4">
-                <i class="fa-solid fa-lightbulb text-yellow-400 text-2xl"></i>
-                <h2 class="text-2xl font-semibold">Was passiert hier?</h2>
-            </div>
-            <div id="explanation" class="text-slate-300 text-xl leading-relaxed">
-                <p>Klicke auf <strong class="text-atvantage-orange">„Nächster Schritt"</strong>, um zu sehen, wie Java Variablen im Speicher anlegt.</p>
-            </div>
-        </div>
-
-        <!-- Navigation -->
-        <div class="flex items-center justify-center gap-6">
-            <button id="prevBtn" onclick="prevStep()" disabled
-                class="px-8 py-4 rounded-full bg-bg-slate border border-slate-600 text-white text-xl font-semibold transition-all hover:bg-bg-slate-light disabled:opacity-30 disabled:cursor-not-allowed">
-                <i class="fa-solid fa-chevron-left mr-3"></i> Zurück
-            </button>
-            <span id="step-counter" class="font-mono text-slate-400 text-2xl px-6">1 / 9</span>
-            <button id="nextBtn" onclick="nextStep()"
-                class="px-8 py-4 rounded-full bg-atvantage-orange text-white text-xl font-semibold transition-all hover:bg-orange-600">
-                Nächster Schritt <i class="fa-solid fa-chevron-right ml-3"></i>
-            </button>
-        </div>
-
-        <!-- Legend -->
-        <div class="mt-6 flex flex-wrap justify-center gap-8 text-xl text-slate-400">
-            <div class="flex items-center gap-3">
-                <div class="w-5 h-5 rounded bg-atvantage-orange/30 border-2 border-atvantage-orange"></div>
-                <span>Primitiver Wert</span>
-            </div>
-            <div class="flex items-center gap-3">
-                <div class="w-5 h-5 rounded bg-blue-400/30 border-2 border-blue-400"></div>
-                <span>Referenz / Objekt</span>
-            </div>
-            <div class="flex items-center gap-3">
-                <svg width="40" height="20" viewBox="0 0 40 20">
-                    <line x1="2" y1="10" x2="30" y2="10" stroke="#60a5fa" stroke-width="2"/>
-                    <polygon points="30,6 38,10 30,14" fill="#60a5fa"/>
-                </svg>
-                <span>Zeiger (Pointer)</span>
             </div>
         </div>
     </div>
 
     <script>
         let currentStep = 0;
-        const totalSteps = 9;
+        const totalSteps = 10;
+
+        // Toggle function for explanation panel
+        function toggleExplanation() {
+            const panel = document.getElementById('explanation-panel');
+            const grid = document.querySelector('.content-grid');
+            const icon = document.getElementById('toggle-icon');
+
+            panel.classList.toggle('collapsed');
+            grid.classList.toggle('explanation-collapsed');
+
+            if (panel.classList.contains('collapsed')) {
+                icon.classList.remove('fa-chevron-right');
+                icon.classList.add('fa-chevron-left');
+            } else {
+                icon.classList.remove('fa-chevron-left');
+                icon.classList.add('fa-chevron-right');
+            }
+
+            // Redraw arrows after layout change
+            setTimeout(() => drawArrows(steps[currentStep].arrows), 350);
+        }
 
         const steps = [
+            // Step 0: Start - Übersicht vor der ersten Code-Zeile
+            {
+                highlight: [],
+                stack: [],
+                heap: [],
+                arrows: [],
+                explanation: `
+                    <div class="space-y-4">
+                        <p class="text-lg">Willkommen! In diesem interaktiven Tutorial lernst du den Unterschied zwischen <strong class="text-atvantage-orange">primitiven Typen</strong> und <strong class="text-blue-400">Referenztypen</strong> in Java.</p>
+                        <div class="bg-bg-deep rounded-lg p-4 border border-slate-600">
+                            <p class="mb-3"><strong>Was du lernen wirst:</strong></p>
+                            <ul class="space-y-2 text-sm">
+                                <li><i class="fa-solid fa-cube text-atvantage-orange mr-2"></i>Wie primitive Werte gespeichert werden</li>
+                                <li><i class="fa-solid fa-arrow-right text-blue-400 mr-2"></i>Wie Objekte und Referenzen funktionieren</li>
+                                <li><i class="fa-solid fa-exclamation-triangle text-yellow-400 mr-2"></i>Typische Fallen bei Referenzen</li>
+                            </ul>
+                        </div>
+                        <p class="text-slate-400 text-sm">Klicke auf <strong class="text-atvantage-orange">„Nächster Schritt"</strong>, um die erste Code-Zeile auszuführen.</p>
+                    </div>
+                `
+            },
             {
                 highlight: ['code-line-1'],
                 stack: [
@@ -318,11 +598,11 @@
                 heap: [],
                 arrows: [],
                 explanation: `
-                    <div class="space-y-4">
-                        <p><code class="code-highlight text-2xl">int kontostand = 10;</code></p>
+                    <div class="space-y-3">
+                        <p><code class="code-highlight text-lg">int kontostand = 10;</code></p>
                         <p><strong class="text-atvantage-orange">Primitiver Typ:</strong> Der Wert <code class="text-green-400">10</code> wird <em>direkt</em> auf dem Stack gespeichert.</p>
                         <p>Die Variable <code>kontostand</code> <strong>enthält</strong> den Wert selbst – nicht einen Verweis darauf.</p>
-                        <div class="bg-bg-deep rounded-lg p-4 mt-4 border-l-4 border-atvantage-orange">
+                        <div class="bg-bg-deep rounded-lg p-3 mt-3 border-l-4 border-atvantage-orange text-sm">
                             <p><i class="fa-solid fa-info-circle text-atvantage-orange mr-2"></i>
                             Primitive Typen: <code>byte, short, int, long, float, double, char, boolean</code></p>
                         </div>
@@ -338,12 +618,11 @@
                 heap: [],
                 arrows: [],
                 explanation: `
-                    <div class="space-y-4">
-                        <p><code class="code-highlight text-2xl">int kopie = kontostand;</code></p>
+                    <div class="space-y-3">
+                        <p><code class="code-highlight text-lg">int kopie = kontostand;</code></p>
                         <p><strong class="text-atvantage-orange">Wichtig:</strong> Der <em>Wert</em> wird <strong>kopiert</strong>!</p>
-                        <p><code>kopie</code> erhält eine <strong>eigene Kopie</strong> des Wertes <code class="text-green-400">10</code>. 
-                        Beide Variablen sind nun unabhängig voneinander.</p>
-                        <div class="bg-green-900/20 rounded-lg p-4 mt-4 border-l-4 border-green-500">
+                        <p><code>kopie</code> erhält eine <strong>eigene Kopie</strong> des Wertes <code class="text-green-400">10</code>. Beide Variablen sind nun unabhängig voneinander.</p>
+                        <div class="bg-green-900/20 rounded-lg p-3 mt-3 border-l-4 border-green-500 text-sm">
                             <p><i class="fa-solid fa-check-circle text-green-400 mr-2"></i>
                             Ändert man später <code>kopie</code>, bleibt <code>kontostand</code> unverändert.</p>
                         </div>
@@ -364,14 +643,14 @@
                     { from: 'stack-konto', to: 'heap-konto', highlight: true }
                 ],
                 explanation: `
-                    <div class="space-y-4">
-                        <p><code class="code-highlight text-2xl">Konto konto = new Konto();</code></p>
+                    <div class="space-y-3">
+                        <p><code class="code-highlight text-lg">Konto konto = new Konto();</code></p>
                         <p><strong class="text-blue-400">Referenztyp:</strong> Hier passieren <strong>zwei Dinge</strong>:</p>
-                        <ol class="list-decimal list-inside space-y-2 ml-4">
+                        <ol class="list-decimal list-inside space-y-1 ml-2 text-sm">
                             <li><code class="text-purple-400">new Konto()</code> erzeugt ein <strong>Objekt auf dem Heap</strong> (Adresse <code>@A1</code>)</li>
-                            <li>Die Variable <code>konto</code> speichert die <strong>Speicheradresse</strong> – einen <strong>Zeiger</strong> auf das Objekt</li>
+                            <li>Die Variable <code>konto</code> speichert die <strong>Speicheradresse</strong> – einen <strong>Zeiger</strong></li>
                         </ol>
-                        <div class="bg-blue-900/20 rounded-lg p-4 mt-4 border-l-4 border-blue-400">
+                        <div class="bg-blue-900/20 rounded-lg p-3 mt-3 border-l-4 border-blue-400 text-sm">
                             <p><i class="fa-solid fa-arrow-right text-blue-400 mr-2"></i>
                             Der <strong>Pfeil</strong> zeigt: <code>konto</code> <em>enthält</em> nicht das Objekt, sondern <strong>zeigt darauf</strong>!</p>
                         </div>
@@ -392,11 +671,11 @@
                     { from: 'stack-konto', to: 'heap-konto', highlight: true, label: 'folgt Zeiger' }
                 ],
                 explanation: `
-                    <div class="space-y-4">
-                        <p><code class="code-highlight text-2xl">konto.stand = 10;</code></p>
+                    <div class="space-y-3">
+                        <p><code class="code-highlight text-lg">konto.stand = 10;</code></p>
                         <p>Java <strong>folgt dem Zeiger</strong>: Die Adresse <code>@A1</code> in <code>konto</code> führt zum Objekt auf dem Heap.</p>
                         <p>Dort wird das Feld <code>stand</code> auf <code class="text-green-400">10</code> gesetzt.</p>
-                        <div class="bg-bg-deep rounded-lg p-4 mt-4 border-l-4 border-slate-500">
+                        <div class="bg-bg-deep rounded-lg p-3 mt-3 border-l-4 border-slate-500 text-sm">
                             <p><i class="fa-solid fa-diagram-project text-slate-400 mr-2"></i>
                             Der <strong>Punkt-Operator</strong> (<code>.</code>) = „Folge dem Zeiger" – auch <em>Dereferenzierung</em> genannt.</p>
                         </div>
@@ -419,12 +698,12 @@
                     { from: 'stack-zweites', to: 'heap-konto', highlight: true }
                 ],
                 explanation: `
-                    <div class="space-y-4">
-                        <p><code class="code-highlight text-2xl">Konto zweites = konto;</code></p>
+                    <div class="space-y-3">
+                        <p><code class="code-highlight text-lg">Konto zweites = konto;</code></p>
                         <p><strong class="text-red-400">Achtung – großer Unterschied zu primitiven Typen!</strong></p>
                         <p>Hier wird <strong>nicht</strong> das Objekt kopiert, sondern nur die <strong>Adresse (der Zeiger)</strong>!</p>
                         <p>Beide Variablen enthalten nun <code>@A1</code> – sie <strong>zeigen auf dasselbe Objekt</strong>.</p>
-                        <div class="bg-red-900/20 rounded-lg p-4 mt-4 border-l-4 border-red-400">
+                        <div class="bg-red-900/20 rounded-lg p-3 mt-3 border-l-4 border-red-400 text-sm">
                             <p><i class="fa-solid fa-exclamation-triangle text-red-400 mr-2"></i>
                             <strong>Zwei Zeiger</strong> → <strong>ein Objekt!</strong></p>
                         </div>
@@ -447,12 +726,12 @@
                     { from: 'stack-zweites', to: 'heap-konto', highlight: true, label: 'ändert Objekt' }
                 ],
                 explanation: `
-                    <div class="space-y-4">
-                        <p><code class="code-highlight text-2xl">zweites.stand = 20;</code></p>
+                    <div class="space-y-3">
+                        <p><code class="code-highlight text-lg">zweites.stand = 20;</code></p>
                         <p><strong class="text-red-400">Das ist der entscheidende Moment!</strong></p>
                         <p>Wir ändern <code>stand</code> über <code>zweites</code> – aber <code>konto.stand</code> ist <strong>auch 20</strong>!</p>
                         <p>Warum? Beide Variablen zeigen auf <strong>dasselbe Objekt</strong> im Heap.</p>
-                        <div class="bg-red-900/20 rounded-lg p-4 mt-4 border-l-4 border-red-400">
+                        <div class="bg-red-900/20 rounded-lg p-3 mt-3 border-l-4 border-red-400 text-sm">
                             <p><i class="fa-solid fa-bomb text-red-400 mr-2"></i>
                             <strong>Falle:</strong> Änderungen über <em>eine</em> Referenz wirken sich auf <em>alle</em> Referenzen aus!</p>
                         </div>
@@ -474,15 +753,15 @@
                     { from: 'stack-zweites', to: 'heap-konto' }
                 ],
                 explanation: `
-                    <div class="space-y-4">
-                        <p><code class="code-highlight text-2xl">konto = null;</code></p>
+                    <div class="space-y-3">
+                        <p><code class="code-highlight text-lg">konto = null;</code></p>
                         <p><code class="text-red-400">null</code> bedeutet: <strong>„zeigt auf nichts"</strong> – der Zeiger wurde gelöscht.</p>
                         <p>Das Objekt im Heap existiert aber <strong>weiterhin</strong>! Es ist noch über <code>zweites</code> erreichbar.</p>
-                        <div class="bg-yellow-900/20 rounded-lg p-4 mt-4 border-l-4 border-yellow-400">
+                        <div class="bg-yellow-900/20 rounded-lg p-3 mt-3 border-l-4 border-yellow-400 text-sm">
                             <p><i class="fa-solid fa-lightbulb text-yellow-400 mr-2"></i>
                             <strong>Wichtig:</strong> <code>null</code> löscht nur den <em>Zeiger</em>, nicht das <em>Objekt</em>!</p>
                         </div>
-                        <div class="bg-bg-deep rounded-lg p-4 mt-4 border-l-4 border-slate-500">
+                        <div class="bg-bg-deep rounded-lg p-3 mt-2 border-l-4 border-slate-500 text-sm">
                             <p><i class="fa-solid fa-trash text-slate-400 mr-2"></i>
                             Erst wenn <em>kein</em> Zeiger mehr auf ein Objekt zeigt, räumt der <strong>Garbage Collector</strong> es auf.</p>
                         </div>
@@ -504,20 +783,20 @@
                     { from: 'stack-zweites', to: 'heap-konto' }
                 ],
                 explanation: `
-                    <div class="space-y-5">
-                        <p class="text-2xl font-semibold">Zusammenfassung: Der entscheidende Unterschied</p>
-                        <div class="grid grid-cols-2 gap-6">
-                            <div class="bg-atvantage-orange/10 rounded-xl p-5 border border-atvantage-orange/50">
-                                <h3 class="font-bold text-atvantage-orange mb-3 text-2xl"><i class="fa-solid fa-cube mr-2"></i>Primitive Typen</h3>
-                                <ul class="space-y-2">
+                    <div class="space-y-4">
+                        <p class="text-xl font-semibold">Zusammenfassung</p>
+                        <div class="grid grid-cols-1 gap-3">
+                            <div class="bg-atvantage-orange/10 rounded-lg p-3 border border-atvantage-orange/50">
+                                <h3 class="font-bold text-atvantage-orange mb-2 text-base"><i class="fa-solid fa-cube mr-2"></i>Primitive Typen</h3>
+                                <ul class="space-y-1 text-sm">
                                     <li>✓ Wert <strong>direkt</strong> auf dem Stack</li>
                                     <li>✓ Zuweisung <strong>kopiert Wert</strong></li>
                                     <li>✓ Variablen <strong>unabhängig</strong></li>
                                 </ul>
                             </div>
-                            <div class="bg-blue-400/10 rounded-xl p-5 border border-blue-400/50">
-                                <h3 class="font-bold text-blue-400 mb-3 text-2xl"><i class="fa-solid fa-arrow-right mr-2"></i>Referenztypen</h3>
-                                <ul class="space-y-2">
+                            <div class="bg-blue-400/10 rounded-lg p-3 border border-blue-400/50">
+                                <h3 class="font-bold text-blue-400 mb-2 text-base"><i class="fa-solid fa-arrow-right mr-2"></i>Referenztypen</h3>
+                                <ul class="space-y-1 text-sm">
                                     <li>✓ Objekt auf dem <strong>Heap</strong></li>
                                     <li>✓ Zuweisung <strong>kopiert Zeiger</strong></li>
                                     <li>✓ Mehrere Zeiger → <strong>gleiches Objekt</strong></li>
@@ -534,19 +813,19 @@
                 heap: [],
                 arrows: [],
                 explanation: `
-                    <div class="text-center space-y-5">
-                        <i class="fa-solid fa-graduation-cap text-7xl text-atvantage-orange mb-4"></i>
-                        <p class="text-3xl font-bold">Merksatz</p>
-                        <div class="bg-bg-deep rounded-xl p-8 max-w-3xl mx-auto border border-slate-600">
-                            <p class="text-2xl italic text-slate-200">
+                    <div class="text-center space-y-4">
+                        <i class="fa-solid fa-graduation-cap text-5xl text-atvantage-orange mb-2"></i>
+                        <p class="text-xl font-bold">Merksatz</p>
+                        <div class="bg-bg-deep rounded-xl p-4 border border-slate-600">
+                            <p class="text-base italic text-slate-200">
                                 „Bei <strong class="text-atvantage-orange">primitiven Typen</strong> wird der <strong>Wert</strong> kopiert.<br>
                                 Bei <strong class="text-blue-400">Referenztypen</strong> wird der <strong>Zeiger</strong> kopiert – nicht das Objekt."
                             </p>
                         </div>
-                        <div class="bg-bg-deep rounded-xl p-5 max-w-2xl mx-auto border border-slate-700 mt-5">
+                        <div class="bg-bg-deep rounded-lg p-3 border border-slate-700 mt-3 text-sm">
                             <p class="text-slate-400">
                                 <i class="fa-solid fa-lightbulb text-yellow-400 mr-2"></i>
-                                <strong>Tipp:</strong> In Java heißen Zeiger offiziell „Referenzen". C/C++ nennt sie „Pointer" – das Konzept ist dasselbe.
+                                <strong>Tipp:</strong> In Java heißen Zeiger offiziell „Referenzen". C/C++ nennt sie „Pointer".
                             </p>
                         </div>
                     </div>
@@ -556,7 +835,7 @@
 
         function renderStep(stepIndex) {
             const step = steps[stepIndex];
-            
+
             // Update code highlighting
             for (let i = 1; i <= 7; i++) {
                 const line = document.getElementById(`code-line-${i}`);
@@ -581,13 +860,13 @@
             // Render Stack
             const stackContent = document.getElementById('stack-content');
             stackContent.innerHTML = step.stack.map(cell => `
-                <div id="${cell.id}" class="memory-cell ${cell.highlight ? 'highlight' : ''} bg-bg-slate rounded-xl p-4 border-2 ${cell.type === 'primitive' ? 'border-atvantage-orange/50' : 'border-blue-400/50'} fade-in">
+                <div id="${cell.id}" class="memory-cell ${cell.highlight ? 'highlight' : ''} bg-bg-slate rounded-lg p-2 border-2 ${cell.type === 'primitive' ? 'border-atvantage-orange/50' : 'border-blue-400/50'} fade-in">
                     <div class="flex justify-between items-center">
-                        <span class="font-mono text-xl ${cell.type === 'primitive' ? 'text-atvantage-orange' : 'text-blue-400'}">${cell.name}</span>
-                        <span class="font-mono text-lg text-slate-500">${cell.type === 'primitive' ? 'int' : 'Konto'}</span>
+                        <span class="font-mono text-sm ${cell.type === 'primitive' ? 'text-atvantage-orange' : 'text-blue-400'}">${cell.name}</span>
+                        <span class="font-mono text-xs text-slate-500">${cell.type === 'primitive' ? 'int' : 'Konto'}</span>
                     </div>
-                    <div class="mt-3 font-mono text-2xl ${cell.isNull ? 'text-red-400 italic' : (cell.type === 'primitive' ? 'text-green-400' : 'text-blue-300')} flex items-center gap-2">
-                        ${cell.type === 'reference' && !cell.isNull ? '<i class="fa-solid fa-arrow-right text-lg text-blue-400"></i>' : ''}
+                    <div class="mt-1 font-mono text-lg ${cell.isNull ? 'text-red-400 italic' : (cell.type === 'primitive' ? 'text-green-400' : 'text-blue-300')} flex items-center gap-1">
+                        ${cell.type === 'reference' && !cell.isNull ? '<i class="fa-solid fa-arrow-right text-xs text-blue-400"></i>' : ''}
                         ${cell.value}
                     </div>
                 </div>
@@ -596,16 +875,16 @@
             // Render Heap
             const heapContent = document.getElementById('heap-content');
             heapContent.innerHTML = step.heap.map(obj => `
-                <div id="${obj.id}" class="memory-cell ${obj.highlight ? 'highlight' : ''} bg-bg-slate rounded-xl p-4 border-2 border-blue-400/50 fade-in">
-                    <div class="flex justify-between items-center mb-3">
-                        <span class="font-bold text-blue-400 text-xl">${obj.name}</span>
-                        <span class="font-mono text-lg bg-blue-900/50 text-blue-300 px-3 py-1 rounded">${obj.address}</span>
+                <div id="${obj.id}" class="memory-cell ${obj.highlight ? 'highlight' : ''} bg-bg-slate rounded-lg p-2 border-2 border-blue-400/50 fade-in">
+                    <div class="flex justify-between items-center mb-2">
+                        <span class="font-bold text-blue-400 text-sm">${obj.name}</span>
+                        <span class="font-mono text-xs bg-blue-900/50 text-blue-300 px-2 py-0.5 rounded">${obj.address}</span>
                     </div>
-                    <div class="space-y-2">
+                    <div class="space-y-1">
                         ${obj.fields.map(f => `
-                            <div class="flex justify-between items-center bg-bg-deep rounded-lg px-4 py-2 ${f.highlight ? 'ring-2 ring-atvantage-orange' : ''}">
-                                <span class="font-mono text-lg text-slate-400">${f.name}</span>
-                                <span class="font-mono text-2xl text-green-400 ${f.changed ? 'value-changed' : ''}">${f.value}</span>
+                            <div class="flex justify-between items-center bg-bg-deep rounded px-2 py-1 ${f.highlight ? 'ring-2 ring-atvantage-orange' : ''}">
+                                <span class="font-mono text-xs text-slate-400">${f.name}</span>
+                                <span class="font-mono text-lg text-green-400 ${f.changed ? 'value-changed' : ''}">${f.value}</span>
                             </div>
                         `).join('')}
                     </div>
@@ -628,6 +907,14 @@
             // Update buttons
             document.getElementById('prevBtn').disabled = stepIndex === 0;
             document.getElementById('nextBtn').disabled = stepIndex === totalSteps - 1;
+
+            // Update button text
+            const nextBtnText = document.getElementById('nextBtnText');
+            if (stepIndex === 0) {
+                nextBtnText.textContent = 'Start';
+            } else {
+                nextBtnText.textContent = 'Nächster Schritt';
+            }
 
             // Draw arrows after a short delay
             setTimeout(() => drawArrows(step.arrows), 100);
@@ -665,7 +952,7 @@
                 // Create the line (without marker)
                 const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
                 const d = `M ${startX} ${startY} C ${midX} ${startY}, ${midX} ${endY}, ${endX - 8} ${endY}`;
-                
+
                 path.setAttribute('d', d);
                 path.setAttribute('fill', 'none');
                 path.setAttribute('stroke', arrow.highlight ? '#ff5401' : '#60a5fa');
@@ -676,7 +963,7 @@
                 const arrowSize = 8;
                 const ax = endX;
                 const ay = endY;
-                arrowhead.setAttribute('points', `${ax - arrowSize},${ay - arrowSize/2} ${ax},${ay} ${ax - arrowSize},${ay + arrowSize/2}`);
+                arrowhead.setAttribute('points', `${ax - arrowSize},${ay - arrowSize / 2} ${ax},${ay} ${ax - arrowSize},${ay + arrowSize / 2}`);
                 arrowhead.setAttribute('fill', arrow.highlight ? '#ff5401' : '#60a5fa');
 
                 group.appendChild(path);
@@ -739,4 +1026,5 @@
         renderStep(0);
     </script>
 </body>
+
 </html>
