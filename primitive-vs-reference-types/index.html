@@ -217,7 +217,7 @@
 
         /* Memory Cell Animations */
         .memory-cell {
-            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .memory-cell.highlight {
@@ -237,13 +237,13 @@
         }
 
         .fade-in {
-            animation: fadeIn 0.5s ease-out forwards;
+            animation: fadeIn 0.4s ease-out forwards;
         }
 
         @keyframes fadeIn {
             from {
                 opacity: 0;
-                transform: translateY(10px);
+                transform: translateY(8px);
             }
 
             to {
@@ -371,6 +371,7 @@
             <div class="step-dot w-3 h-3 rounded-full bg-slate-600" data-step="7"></div>
             <div class="step-dot w-3 h-3 rounded-full bg-slate-600" data-step="8"></div>
             <div class="step-dot w-3 h-3 rounded-full bg-slate-600" data-step="9"></div>
+            <div class="step-dot w-3 h-3 rounded-full bg-slate-600" data-step="10"></div>
         </div>
 
         <!-- 3-Column Content Grid -->
@@ -428,6 +429,13 @@
                             <span class="text-blue-300">konto</span>
                             <span class="text-slate-400">=</span>
                             <span class="text-red-400">null</span><span class="text-slate-400">;</span>
+                        </div>
+                        <div id="code-line-8" class="py-1.5 px-2 rounded transition-all duration-300 opacity-40">
+                            <span class="text-blue-300">konto</span><span class="text-slate-400">.</span><span
+                                class="text-blue-300">stand</span><span class="text-slate-400">;</span>
+                            <span id="npe-comment"
+                                class="text-red-500 text-sm ml-2 opacity-0 transition-opacity duration-300">//
+                                NPE!</span>
                         </div>
                     </div>
                 </div>
@@ -515,7 +523,7 @@
                     class="px-5 py-2 rounded-full bg-bg-slate border border-slate-600 text-white text-base font-semibold transition-all hover:bg-bg-slate-light disabled:opacity-30 disabled:cursor-not-allowed">
                     <i class="fa-solid fa-chevron-left mr-2"></i> Zurück
                 </button>
-                <span id="step-counter" class="font-mono text-slate-400 text-lg px-3">1 / 10</span>
+                <span id="step-counter" class="font-mono text-slate-400 text-lg px-3">1 / 11</span>
                 <button id="nextBtn" onclick="nextStep()"
                     class="px-5 py-2 rounded-full bg-atvantage-orange text-white text-base font-semibold transition-all hover:bg-orange-600">
                     <span id="nextBtnText">Start</span> <i class="fa-solid fa-chevron-right ml-2"></i>
@@ -545,7 +553,7 @@
 
     <script>
         let currentStep = 0;
-        const totalSteps = 10;
+        const totalSteps = 11;
 
         // Toggle function for explanation panel
         function toggleExplanation() {
@@ -743,7 +751,7 @@
                 stack: [
                     { id: 'stack-kontostand', name: 'kontostand', value: '10', type: 'primitive' },
                     { id: 'stack-kopie', name: 'kopie', value: '10', type: 'primitive' },
-                    { id: 'stack-konto', name: 'konto', value: 'null', type: 'reference', highlight: true, isNull: true },
+                    { id: 'stack-konto', name: 'konto', value: '–', type: 'reference', highlight: true, isNull: true },
                     { id: 'stack-zweites', name: 'zweites', value: '@A1', type: 'reference' }
                 ],
                 heap: [
@@ -769,11 +777,42 @@
                 `
             },
             {
+                highlight: ['code-line-8'],
+                stack: [
+                    { id: 'stack-kontostand', name: 'kontostand', value: '10', type: 'primitive' },
+                    { id: 'stack-kopie', name: 'kopie', value: '10', type: 'primitive' },
+                    { id: 'stack-konto', name: 'konto', value: '–', type: 'reference', highlight: true, isNull: true },
+                    { id: 'stack-zweites', name: 'zweites', value: '@A1', type: 'reference' }
+                ],
+                heap: [
+                    { id: 'heap-konto', name: 'Konto', address: '@A1', fields: [{ name: 'stand', value: '20' }] }
+                ],
+                arrows: [
+                    { from: 'stack-zweites', to: 'heap-konto' }
+                ],
+                explanation: `
+                    <div class="space-y-3">
+                        <p><code class="code-highlight text-lg">konto.stand;</code></p>
+                        <div class="bg-red-900/30 rounded-lg p-4 border border-red-500">
+                            <p class="text-red-400 font-bold text-lg mb-2">
+                                <i class="fa-solid fa-explosion mr-2"></i>NullPointerException!
+                            </p>
+                            <p class="text-sm">Java kann dem Zeiger nicht folgen, weil <code>konto</code> auf <strong>nichts</strong> zeigt.</p>
+                        </div>
+                        <p class="mt-3">Der Punkt-Operator (<code>.</code>) versucht, dem Zeiger zu folgen – aber es gibt kein Ziel!</p>
+                        <div class="bg-bg-deep rounded-lg p-3 mt-3 border-l-4 border-red-400 text-sm">
+                            <p><i class="fa-solid fa-shield-halved text-red-400 mr-2"></i>
+                            <strong>Prävention:</strong> Immer prüfen: <code class="text-green-400">if (konto != null)</code> bevor man auf Felder zugreift.</p>
+                        </div>
+                    </div>
+                `
+            },
+            {
                 highlight: [],
                 stack: [
                     { id: 'stack-kontostand', name: 'kontostand', value: '10', type: 'primitive' },
                     { id: 'stack-kopie', name: 'kopie', value: '10', type: 'primitive' },
-                    { id: 'stack-konto', name: 'konto', value: 'null', type: 'reference', isNull: true },
+                    { id: 'stack-konto', name: 'konto', value: '–', type: 'reference', isNull: true },
                     { id: 'stack-zweites', name: 'zweites', value: '@A1', type: 'reference' }
                 ],
                 heap: [
@@ -800,7 +839,7 @@
                                     <li>✓ Objekt auf dem <strong>Heap</strong></li>
                                     <li>✓ Zuweisung <strong>kopiert Zeiger</strong></li>
                                     <li>✓ Mehrere Zeiger → <strong>gleiches Objekt</strong></li>
-                                    <li>✓ <code>null</code> = „zeigt auf nichts"</li>
+                                    <li>✓ <code>null</code> = „zeigt auf nichts" → <strong>NPE-Gefahr!</strong></li>
                                 </ul>
                             </div>
                         </div>
@@ -809,35 +848,49 @@
             },
             {
                 highlight: [],
-                stack: [],
-                heap: [],
-                arrows: [],
+                stack: [
+                    { id: 'stack-kontostand', name: 'kontostand', value: '10', type: 'primitive' },
+                    { id: 'stack-kopie', name: 'kopie', value: '10', type: 'primitive' },
+                    { id: 'stack-konto', name: 'konto', value: '–', type: 'reference', isNull: true },
+                    { id: 'stack-zweites', name: 'zweites', value: '@A1', type: 'reference' }
+                ],
+                heap: [
+                    { id: 'heap-konto', name: 'Konto', address: '@A1', fields: [{ name: 'stand', value: '20' }] }
+                ],
+                arrows: [
+                    { from: 'stack-zweites', to: 'heap-konto' }
+                ],
                 explanation: `
-                    <div class="text-center space-y-4">
-                        <i class="fa-solid fa-graduation-cap text-5xl text-atvantage-orange mb-2"></i>
-                        <p class="text-xl font-bold">Merksatz</p>
+                    <div class="space-y-4">
+                        <p class="text-xl font-bold text-center">Merksatz</p>
                         <div class="bg-bg-deep rounded-xl p-4 border border-slate-600">
-                            <p class="text-base italic text-slate-200">
+                            <p class="text-base italic text-slate-200 text-center">
                                 „Bei <strong class="text-atvantage-orange">primitiven Typen</strong> wird der <strong>Wert</strong> kopiert.<br>
                                 Bei <strong class="text-blue-400">Referenztypen</strong> wird der <strong>Zeiger</strong> kopiert – nicht das Objekt."
                             </p>
                         </div>
-                        <div class="bg-bg-deep rounded-lg p-3 border border-slate-700 mt-3 text-sm">
-                            <p class="text-slate-400">
-                                <i class="fa-solid fa-lightbulb text-yellow-400 mr-2"></i>
-                                <strong>Tipp:</strong> In Java heißen Zeiger offiziell „Referenzen". C/C++ nennt sie „Pointer".
-                            </p>
+                        <div class="bg-purple-900/20 rounded-lg p-3 border border-purple-400/50 text-sm">
+                            <p class="font-semibold text-purple-300 mb-2"><i class="fa-solid fa-book mr-2"></i>Fachbegriffe</p>
+                            <ul class="space-y-1 text-slate-300">
+                                <li><strong class="text-atvantage-orange">Call-by-Value:</strong> Der <em>Wert</em> wird kopiert (primitive Typen)</li>
+                                <li><strong class="text-blue-400">Call-by-Reference:</strong> Die <em>Referenz</em> wird kopiert (Objekte)</li>
+                            </ul>
+                            <p class="text-slate-400 mt-2 text-xs"><i class="fa-solid fa-info-circle mr-1"></i>Streng genommen ist Java immer „Call-by-Value" – bei Objekten wird der <em>Wert der Referenz</em> kopiert.</p>
                         </div>
                     </div>
                 `
             }
         ];
 
+        // Track previous state for incremental updates
+        let previousStackIds = [];
+        let previousHeapIds = [];
+
         function renderStep(stepIndex) {
             const step = steps[stepIndex];
 
             // Update code highlighting
-            for (let i = 1; i <= 7; i++) {
+            for (let i = 1; i <= 8; i++) {
                 const line = document.getElementById(`code-line-${i}`);
                 if (step.highlight.includes(`code-line-${i}`)) {
                     line.classList.remove('opacity-40');
@@ -857,39 +910,125 @@
                 }
             }
 
-            // Render Stack
-            const stackContent = document.getElementById('stack-content');
-            stackContent.innerHTML = step.stack.map(cell => `
-                <div id="${cell.id}" class="memory-cell ${cell.highlight ? 'highlight' : ''} bg-bg-slate rounded-lg p-2 border-2 ${cell.type === 'primitive' ? 'border-atvantage-orange/50' : 'border-blue-400/50'} fade-in">
-                    <div class="flex justify-between items-center">
-                        <span class="font-mono text-sm ${cell.type === 'primitive' ? 'text-atvantage-orange' : 'text-blue-400'}">${cell.name}</span>
-                        <span class="font-mono text-xs text-slate-500">${cell.type === 'primitive' ? 'int' : 'Konto'}</span>
-                    </div>
-                    <div class="mt-1 font-mono text-lg ${cell.isNull ? 'text-red-400 italic' : (cell.type === 'primitive' ? 'text-green-400' : 'text-blue-300')} flex items-center gap-1">
-                        ${cell.type === 'reference' && !cell.isNull ? '<i class="fa-solid fa-arrow-right text-xs text-blue-400"></i>' : ''}
-                        ${cell.value}
-                    </div>
-                </div>
-            `).join('');
+            // Show/hide NPE comment
+            const npeComment = document.getElementById('npe-comment');
+            if (step.highlight.includes('code-line-8')) {
+                npeComment.classList.remove('opacity-0');
+                npeComment.classList.add('opacity-100');
+            } else {
+                npeComment.classList.add('opacity-0');
+                npeComment.classList.remove('opacity-100');
+            }
 
-            // Render Heap
+            // Incremental Stack Rendering
+            const stackContent = document.getElementById('stack-content');
+            const currentStackIds = step.stack.map(c => c.id);
+
+            // Remove elements that are no longer present
+            previousStackIds.forEach(id => {
+                if (!currentStackIds.includes(id)) {
+                    const el = document.getElementById(id);
+                    if (el) {
+                        el.style.opacity = '0';
+                        el.style.transform = 'translateX(-20px)';
+                        setTimeout(() => el.remove(), 300);
+                    }
+                }
+            });
+
+            // Add or update stack elements
+            step.stack.forEach((cell, index) => {
+                let el = document.getElementById(cell.id);
+
+                if (!el) {
+                    // Create new element
+                    el = document.createElement('div');
+                    el.id = cell.id;
+                    el.className = `memory-cell bg-bg-slate rounded-lg p-2 border-2 ${cell.type === 'primitive' ? 'border-atvantage-orange/50' : 'border-blue-400/50'} fade-in`;
+                    el.innerHTML = renderStackCellContent(cell);
+                    stackContent.appendChild(el);
+                } else {
+                    // Update existing element
+                    el.classList.remove('fade-in');
+
+                    // Update highlight
+                    if (cell.highlight) {
+                        el.classList.add('highlight');
+                    } else {
+                        el.classList.remove('highlight');
+                    }
+
+                    // Check if value changed
+                    const valueEl = el.querySelector('.cell-value');
+                    if (valueEl && valueEl.textContent.trim() !== cell.value) {
+                        el.innerHTML = renderStackCellContent(cell);
+                        el.querySelector('.cell-value').classList.add('value-changed');
+                    } else if (cell.isNull !== el.dataset.isNull) {
+                        el.innerHTML = renderStackCellContent(cell);
+                    }
+                }
+
+                el.dataset.isNull = cell.isNull || false;
+            });
+
+            previousStackIds = currentStackIds;
+
+            // Incremental Heap Rendering
             const heapContent = document.getElementById('heap-content');
-            heapContent.innerHTML = step.heap.map(obj => `
-                <div id="${obj.id}" class="memory-cell ${obj.highlight ? 'highlight' : ''} bg-bg-slate rounded-lg p-2 border-2 border-blue-400/50 fade-in">
-                    <div class="flex justify-between items-center mb-2">
-                        <span class="font-bold text-blue-400 text-sm">${obj.name}</span>
-                        <span class="font-mono text-xs bg-blue-900/50 text-blue-300 px-2 py-0.5 rounded">${obj.address}</span>
-                    </div>
-                    <div class="space-y-1">
-                        ${obj.fields.map(f => `
-                            <div class="flex justify-between items-center bg-bg-deep rounded px-2 py-1 ${f.highlight ? 'ring-2 ring-atvantage-orange' : ''}">
-                                <span class="font-mono text-xs text-slate-400">${f.name}</span>
-                                <span class="font-mono text-lg text-green-400 ${f.changed ? 'value-changed' : ''}">${f.value}</span>
-                            </div>
-                        `).join('')}
-                    </div>
-                </div>
-            `).join('');
+            const currentHeapIds = step.heap.map(o => o.id);
+
+            // Remove elements that are no longer present
+            previousHeapIds.forEach(id => {
+                if (!currentHeapIds.includes(id)) {
+                    const el = document.getElementById(id);
+                    if (el) {
+                        el.style.opacity = '0';
+                        el.style.transform = 'translateX(20px)';
+                        setTimeout(() => el.remove(), 300);
+                    }
+                }
+            });
+
+            // Add or update heap elements
+            step.heap.forEach((obj, index) => {
+                let el = document.getElementById(obj.id);
+
+                if (!el) {
+                    // Create new element
+                    el = document.createElement('div');
+                    el.id = obj.id;
+                    el.className = `memory-cell bg-bg-slate rounded-lg p-2 border-2 border-blue-400/50 fade-in`;
+                    el.innerHTML = renderHeapObjContent(obj);
+                    heapContent.appendChild(el);
+                } else {
+                    // Update existing element
+                    el.classList.remove('fade-in');
+
+                    // Update highlight
+                    if (obj.highlight) {
+                        el.classList.add('highlight');
+                    } else {
+                        el.classList.remove('highlight');
+                    }
+
+                    // Check if any field value changed
+                    const currentValues = Array.from(el.querySelectorAll('.field-value')).map(v => v.textContent.trim());
+                    const newValues = obj.fields.map(f => f.value);
+
+                    if (JSON.stringify(currentValues) !== JSON.stringify(newValues)) {
+                        el.innerHTML = renderHeapObjContent(obj);
+                        // Add animation to changed fields
+                        obj.fields.forEach((f, i) => {
+                            if (f.changed || (currentValues[i] && currentValues[i] !== f.value)) {
+                                const fieldEl = el.querySelectorAll('.field-value')[i];
+                                if (fieldEl) fieldEl.classList.add('value-changed');
+                            }
+                        });
+                    }
+                }
+            });
+
+            previousHeapIds = currentHeapIds;
 
             // Update explanation
             document.getElementById('explanation').innerHTML = step.explanation;
@@ -918,6 +1057,36 @@
 
             // Draw arrows after a short delay
             setTimeout(() => drawArrows(step.arrows), 100);
+        }
+
+        function renderStackCellContent(cell) {
+            return `
+                <div class="flex justify-between items-center">
+                    <span class="font-mono text-sm ${cell.type === 'primitive' ? 'text-atvantage-orange' : 'text-blue-400'}">${cell.name}</span>
+                    <span class="font-mono text-xs text-slate-500">${cell.type === 'primitive' ? 'int' : 'Konto'}</span>
+                </div>
+                <div class="mt-1 font-mono text-lg ${cell.isNull ? 'text-red-400 italic' : (cell.type === 'primitive' ? 'text-green-400' : 'text-blue-300')} flex items-center gap-1">
+                    ${cell.type === 'reference' && !cell.isNull ? '<i class="fa-solid fa-arrow-right text-xs text-blue-400"></i>' : ''}
+                    <span class="cell-value">${cell.value}</span>
+                </div>
+            `;
+        }
+
+        function renderHeapObjContent(obj) {
+            return `
+                <div class="flex justify-between items-center mb-2">
+                    <span class="font-bold text-blue-400 text-sm">${obj.name}</span>
+                    <span class="font-mono text-xs bg-blue-900/50 text-blue-300 px-2 py-0.5 rounded">${obj.address}</span>
+                </div>
+                <div class="space-y-1">
+                    ${obj.fields.map(f => `
+                        <div class="flex justify-between items-center bg-bg-deep rounded px-2 py-1 ${f.highlight ? 'ring-2 ring-atvantage-orange' : ''}">
+                            <span class="font-mono text-xs text-slate-400">${f.name}</span>
+                            <span class="font-mono text-lg text-green-400 field-value">${f.value}</span>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
         }
 
         function drawArrows(arrows) {
