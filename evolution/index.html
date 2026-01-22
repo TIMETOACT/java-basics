@@ -604,7 +604,8 @@
                     { title: "Lambdas", desc: "Funktionaler Programmierstil durch Code-Blöcke, die als Parameter übergeben werden.", code: "public void sort(List<String> l) {\n    // Kompakte Sortier-Logik\n    l.sort((a, b) -> a.length() - b.length());\n    l.forEach(s -> System.out.println(s));\n}" },
                     { title: "Streams API", desc: "Deklarative Verarbeitung von Datenmenge in Pipelines (Filter, Map, Reduce).", code: "public void process(List<Integer> list) {\n    long result = list.stream()\n        .filter(x -> x > 10)\n        .map(x -> x * 2)\n        .count();\n    System.out.println(\"Gezählt: \" + result);\n}" },
                     { title: "Date/Time API", desc: "Moderne, unveränderliche Datums-Klassen (java.time) lösen Date und Calendar ab.", code: "public void time() {\n    LocalDate heute = LocalDate.now();\n    LocalDate nextWeek = heute.plusWeeks(1);\n    System.out.println(\"Nächste Woche: \" + nextWeek);\n}" },
-                    { title: "Optional", desc: "Container-Objekt zur Vermeidung von NullPointerExceptions und für saubere APIs.", code: "public void printUser(User u) {\n    String name = Optional.ofNullable(u)\n        .map(User::getName)\n        .orElse(\"Unbekannt\");\n    System.out.println(\"User: \" + name);\n}" }
+                    { title: "Optional", desc: "Container-Objekt zur Vermeidung von NullPointerExceptions und für saubere APIs.", code: "public void printUser(User u) {\n    String name = Optional.ofNullable(u)\n        .map(User::getName)\n        .orElse(\"Unbekannt\");\n    System.out.println(\"User: \" + name);\n}" },
+                    { title: "Default Methods", desc: "Methoden in Interfaces mit Standard-Implementierung, um Rückwärtskompatibilität zu wahren (z.B. in Collection-Interfaces für Streams).", code: "interface Vehicle {\n    // Implementierung im Interface\n    default void honk() {\n        System.out.println(\"Beep!\");\n    }\n}\n\nclass Car implements Vehicle { }\nnew Car().honk(); // Nutzt Default-Methode" }
                 ]
             },
             {
@@ -628,7 +629,8 @@
                 ver: "1.21 (21)", date: "19. September 2023", year: 2023, features: [
                     { title: "Virtual Threads", desc: "Leichtgewichtige Threads (Project Loom) für massive Skalierbarkeit bei minimalem Overhead.", code: "public void runAsync() {\n    try (var exec = Executors.newVirtualThreadPerTaskExecutor()) {\n        exec.submit(() -> {\n            System.out.println(\"Running in Virtual Thread\");\n        });\n    }\n}" },
                     { title: "Sequenced Collections", desc: "Einheitlicher Zugriff auf erstes und letztes Element (List, Deque, SortedSet).", code: "public void firstLast(List<String> list) {\n    // Einheitlicher Zugriff\n    System.out.println(list.getFirst());\n    System.out.println(list.getLast());\n    // Rückwärts\n    for (var s : list.reversed()) { /* ... */ }\n}" },
-                    { title: "Switch Patterns", desc: "Fallunterscheidung basierend auf dem Datentyp direkt im Switch.", code: "return switch (obj) {\n    case Integer i -> \"Zahl: \" + i;\n    case String s  -> \"Text: \" + s;\n    default        -> \"Andere\";\n};" }
+                    { title: "Switch Patterns", desc: "Fallunterscheidung basierend auf dem Datentyp direkt im Switch.", code: "return switch (obj) {\n    case Integer i -> \"Zahl: \" + i;\n    case String s  -> \"Text: \" + s;\n    default        -> \"Andere\";\n};" },
+                    { title: "Classless Main", desc: "Vereinfachter Einstieg in Java (JEP 445 Preview): Keine explizite Klasse oder `public static` mehr nötig.", code: "// Kein Klassengerüst nötig\nvoid main() {\n    System.out.println(\"Hello, World!\");\n}" }
                 ]
             },
             {
