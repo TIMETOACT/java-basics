@@ -483,7 +483,7 @@
             <p style="font-weight: bold; color: #ff5401;">Fragen zu Java-Themen?</p>
             <p style="font-size: 10pt; color: #444;">Für Beratung rund um Java-Schulungen kontaktieren Sie uns unter:
             </p>
-            <p style="font-family: monospace; font-weight: bold; font-size: 12pt;">competence-center@atvantage.com</p>
+            <p id="print-mail" style="font-family: monospace; font-weight: bold; font-size: 12pt;"></p>
         </div>
         <ul id="toc-list">
             <!-- Dynamisch gefüllt via JS -->
@@ -643,8 +643,9 @@
         ];
 
         function handleCtaClick() {
-            const p1 = "competence"; const p2 = "center"; const dom = "atvantage.com";
-            const mail = `${p1}-${p2}@${dom}`;
+            const part1 = "academy";
+            const domain = "atvantage.com";
+            const mail = `${part1}@${domain}`;
             window.location.href = `mailto:${mail}?subject=Beratungsanfrage Java-Schulung`;
         }
 
@@ -655,6 +656,12 @@
 
         function init() {
             const tocList = document.getElementById('toc-list');
+
+            // Mail Protection
+            const mPart = "academy";
+            const mDom = "atvantage.com";
+            const printMail = document.getElementById('print-mail');
+            if (printMail) printMail.textContent = `${mPart}@${mDom}`;
 
             for (let y = startYear; y <= endYear; y++) {
                 const m = document.createElement('div');
